@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/menu_group"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        yourapp:showAsAction="ifRoom">
+        <item
+            android:id="@+id/action_home"
+            android:title="@string/button_reload" />
+    </group>
+
+</menu>

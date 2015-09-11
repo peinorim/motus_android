@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MomoMotus</string>
+    <string name="maintitle">Bienvenue sur</string>
+    <string name="mainsubtitle">Choisissez le nombre de lettres par mot et lancez la partie. 5 mots sont à trouver par partie.</string>
+    <string name="mainerror">Vous devez cocher une des options ci-dessous</string>
+    <string name="six_letters">Mots de 6 lettres</string>
+    <string name="seven_letters">Mots de 7 lettres</string>
+    <string name="eight_letters">Mots de 8 lettres</string>
+    <string name="nine_letters">Mots de 9 lettres</string>
+    <string name="ten_letters">Mots de 10 lettres</string>
+    <string name="button_send">Démarrer une partie</string>
+    <string name="loading">Veuillez patienter svp...</string>
+    <string name="button_reload">Retour vers l\'accueil</string>
+    <string name="button_exit">Quitter</string>
+    <string name="endtitle">Partie terminée !</string>
+    <string name="title_activity_motus">MomoMotus</string>
+    <string name="mot">Tapez votre mot</string>
+    <string name="counter">0/x</string>
+    <string name="blank">\u00A0</string>
+
+</resources>

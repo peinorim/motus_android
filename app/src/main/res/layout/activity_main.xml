@@ -1,0 +1,137 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:id="@+id/scrollView"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:text="@string/maintitle"
+            android:textColor="@color/red_darken1"
+            android:textSize="@dimen/maintitle" />
+
+        <TextView
+            android:id="@+id/maintitle_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/maintitle"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:text="MomoMotus"
+            android:textColor="@color/red_darken1"
+            android:textSize="@dimen/maintitle_app" />
+
+        <TextView
+            android:id="@+id/mainsubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/maintitle_app"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:text="@string/mainsubtitle"
+            android:textSize="@dimen/mainsubtitle" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/optGame"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainsubtitle"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <RadioButton
+                android:id="@+id/radio_six"
+                android:width="@dimen/radio_width"
+                android:paddingTop="@dimen/radio_vertical_margin"
+                android:paddingBottom="@dimen/radio_vertical_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/six_letters"
+                android:textColor="@color/red"
+                android:textSize="@dimen/optGame" />
+
+            <RadioButton
+                android:id="@+id/radio_seven"
+                android:layout_width="@dimen/radio_width"
+                android:paddingTop="@dimen/radio_vertical_margin"
+                android:paddingBottom="@dimen/radio_vertical_margin"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/seven_letters"
+                android:textColor="@color/red_darken1"
+                android:textSize="@dimen/optGame" />
+
+            <RadioButton
+                android:id="@+id/radio_eight"
+                android:layout_width="@dimen/radio_width"
+                android:paddingTop="@dimen/radio_vertical_margin"
+                android:paddingBottom="@dimen/radio_vertical_margin"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/eight_letters"
+                android:textColor="@color/red_darken2"
+                android:textSize="@dimen/optGame" />
+
+            <RadioButton
+                android:id="@+id/radio_nine"
+                android:layout_width="@dimen/radio_width"
+                android:paddingTop="@dimen/radio_vertical_margin"
+                android:paddingBottom="@dimen/radio_vertical_margin"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/nine_letters"
+                android:textColor="@color/red_darken3"
+                android:textSize="@dimen/optGame" />
+
+            <RadioButton
+                android:id="@+id/radio_ten"
+                android:layout_width="@dimen/radio_width"
+                android:paddingTop="@dimen/radio_vertical_margin"
+                android:paddingBottom="@dimen/radio_vertical_margin"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/ten_letters"
+                android:textColor="@color/red_darken4"
+                android:textSize="@dimen/optGame" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/optGame"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_red"
+            android:drawablePadding="10sp"
+            android:drawableRight="@drawable/ic_send_white_24dp"
+            android:onClick="startGame"
+            android:text="@string/button_send"
+            android:textColor="@color/white"
+            android:textSize="@dimen/btnsend" />
+
+    </RelativeLayout>
+</ScrollView>
