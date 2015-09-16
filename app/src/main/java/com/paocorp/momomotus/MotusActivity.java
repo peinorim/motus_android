@@ -32,6 +32,7 @@ import org.xml.sax.InputSource;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -47,6 +48,7 @@ public class MotusActivity extends AppCompatActivity {
     Motus partie;
     Map<Integer, String> map = new HashMap<>();
     AdView adView;
+    String loc;
 
     public void checkMot(View v) {
         sendMot.setEnabled(false);
@@ -74,7 +76,7 @@ public class MotusActivity extends AppCompatActivity {
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
 
-                        loadToast("Mot : " + partie.getMot(partie.getCurrent() - 1).getMot() + " trouvé !", true);
+                        loadToast(this.getResources().getString(R.string.the_word) + partie.getMot(partie.getCurrent() - 1).getMot() + this.getResources().getString(R.string.trouve), true);
 
                     } else if (!mot.isTrouve() && mot.isFini()) {
 
@@ -90,9 +92,9 @@ public class MotusActivity extends AppCompatActivity {
                         l1c1.setBackgroundResource(R.drawable.square_red);
 
                         if (existe) {
-                            loadToast("Il fallait trouver le mot : " + partie.getMot(partie.getCurrent() - 1).getMot(), false);
+                            loadToast(this.getResources().getString(R.string.fallait_trouver) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
                         } else {
-                            loadToast("Le mot : " + sMot + " n'existe pas. Il fallait trouver : " + partie.getMot(partie.getCurrent() - 1).getMot(), false);
+                            loadToast(this.getResources().getString(R.string.the_word) + sMot + this.getResources().getString(R.string.existe_pas) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
                         }
                     } else {
                         parseRes(partie.getMot(partie.getCurrent()).getVerif());
@@ -214,14 +216,14 @@ public class MotusActivity extends AppCompatActivity {
 
             if (partie.getMot(i).isTrouve()) {
                 if (partie.getMot(i).getLigne() == 1) {
-                    tview.setText(partie.getMot(i).getMot() + " trouvé du premier coup !");
+                    tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.premier_coup));
                 } else {
-                    tview.setText(partie.getMot(i).getMot() + " trouvé en " + partie.getMot(i).getLigne() + " essais !");
+                    tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.x_coup) + partie.getMot(i).getLigne() + this.getResources().getString(R.string.coups));
                 }
                 tview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_action_done, 0, 0, 0);
                 tview.setTextColor(this.getResources().getColor(R.color.green));
             } else {
-                tview.setText(partie.getMot(i).getMot() + " non trouvé.");
+                tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.nontrouve));
                 tview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_content_clear, 0, 0, 0);
                 tview.setTextColor(this.getResources().getColor(R.color.red_darken1));
             }
@@ -266,7 +268,7 @@ public class MotusActivity extends AppCompatActivity {
         if (map.size() > 1) {
             for (Map.Entry<Integer, String> entry : map.entrySet()) {
                 Integer key = entry.getKey();
-                if(key != 0) {
+                if (key != 0) {
                     String value = entry.getValue();
                     String lnext = "l" + next + "c" + key;
                     int resID = getResources().getIdentifier(lnext, "id", getPackageName());
@@ -282,7 +284,13 @@ public class MotusActivity extends AppCompatActivity {
     private void fillPartieMots() throws Exception {
 
         InputSource inputSrc;
-        String xmlraw = "xml_" + partie.getNb();
+        loc = Locale.getDefault().getLanguage();
+        String en = "";
+        if (loc.equals("en")) {
+            en = "_en";
+        }
+
+        String xmlraw = "xml_" + partie.getNb() + en;
 
         Resources res = this.getResources();
         int rawId = res.getIdentifier(xmlraw, "raw", this.getPackageName());
@@ -298,18 +306,26 @@ public class MotusActivity extends AppCompatActivity {
 
         // if node found
         if (nodes != null && nodes.getLength() > 0) {
-            for (int i = 0; i < partie.getNbmots(); ++i) {
+            while (partie.getNbmots() > partie.getMots().size()) {
                 // query value
                 int rnd = new Random().nextInt(nodes.getLength());
                 Node node = nodes.item(rnd);
-                partie.getMots().add(new Mot(node.getTextContent()));
+                if (node.getTextContent().indexOf("-") == -1) {
+                    partie.getMots().add(new Mot(node.getTextContent()));
+                }
             }
         }
     }
 
     private boolean existe(String mot) throws Exception {
         InputSource inputSrc;
-        String xmlraw = "xml_" + partie.getNb();
+        loc = Locale.getDefault().getLanguage();
+        String en = "";
+        if (loc.equals("en")) {
+            en = "_en";
+        }
+
+        String xmlraw = "xml_" + partie.getNb() + en;
 
         Resources res = this.getResources();
         int rawId = res.getIdentifier(xmlraw, "raw", this.getPackageName());
@@ -372,6 +388,7 @@ public class MotusActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         System.exit(0);
+        this.startActivity(new Intent(this, MainActivity.class));
         return;
     }
 }

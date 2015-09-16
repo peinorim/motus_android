@@ -17,5 +17,14 @@
     <string name="mot">Tapez votre mot</string>
     <string name="counter">0/x</string>
     <string name="blank">\u00A0</string>
-
+    <string name="the_word">Le mot :&#160;</string>
+    <string name="fallait_trouver">Il fallait trouver le mot :&#160;</string>
+    <string name="existe_pas">&#160;n\'existe pas. Il fallait trouver :&#160;</string>
+    <string name="trouve">&#160;est trouvé !</string>
+    <string name="premier_coup">&#160;trouvé du premier coup !</string>
+    <string name="x_coup">&#160;trouvé en&#160;</string>
+    <string name="coups">&#160;coups</string>
+    <string name="nontrouve">&#160;non trouvé.</string>
+    <string name="interstitial">ca-app-pub-2669557761715669/7770214839</string>
+    <string name="banner_bottom">ca-app-pub-2669557761715669/4459614036</string>
 </resources>

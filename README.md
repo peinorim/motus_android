@@ -1,4 +1,4 @@
-motus
+MomoMotus - FindTheWords
 =====
 
-A Motus game !
+* v2.1 : English version added

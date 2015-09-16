@@ -7,10 +7,6 @@
         <item
             android:id="@+id/action_home"
             android:title="@string/button_reload" />
-
-        <item
-            android:id="@+id/action_exit"
-            android:title="@string/button_exit" />
     </group>
 
 </menu>

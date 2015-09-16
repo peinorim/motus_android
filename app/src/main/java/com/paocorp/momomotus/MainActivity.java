@@ -57,13 +57,16 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtras(b);
             startActivity(intent);
         } else {
-            mainsubtitle.setText(R.string.mainerror);
+            b.putInt("nb", 6);
+            intent.putExtras(b);
+            startActivity(intent);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         mInterstitialAd = new InterstitialAd(this);
@@ -103,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_home) {
-            return true;
-        } else if (id == R.id.action_exit) {
-            finish();
-            System.exit(0);
             return true;
         }
 

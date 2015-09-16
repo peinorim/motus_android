@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FindTheWords</string>
+    <string name="button_exit">Exit</string>
+    <string name="button_reload">Back to home</string>
+    <string name="button_send">Start game</string>
+    <string name="eight_letters">8 letter words</string>
+    <string name="endtitle">Game over !</string>
+    <string name="loading">Please wait...</string>
+    <string name="mainerror">You must choose one of these options</string>
+    <string name="mainsubtitle">Choose the number of letters per word and start the game. 5 words are to be found per game.</string>
+    <string name="maintitle">Welcome to</string>
+    <string name="mot">Write your word</string>
+    <string name="nine_letters">9 letter words</string>
+    <string name="seven_letters">7 letter words</string>
+    <string name="six_letters">6 letter words</string>
+    <string name="ten_letters">10 letter words</string>
+    <string name="title_activity_motus">Find The Words</string>
+    <string name="counter">0/x</string>
+    <string name="blank">\u00A0</string>
+    <string name="the_word">The word :&#160;</string>
+    <string name="trouve">&#160;is found !</string>
+    <string name="fallait_trouver">You had to find the word : </string>
+    <string name="existe_pas">&#160;does not exist. You had to find the word :&#160;</string>
+    <string name="premier_coup">&#160;found on the first try !</string>
+    <string name="x_coup">&#160;found in </string>
+    <string name="coups">&#160;moves.</string>
+    <string name="nontrouve">&#160;not found.</string>
+    <string name="interstitial">ca-app-pub-2669557761715669/7770214839</string>
+    <string name="banner_bottom">ca-app-pub-2669557761715669/4459614036</string>
+</resources>

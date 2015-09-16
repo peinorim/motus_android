@@ -33,7 +33,7 @@
             android:gravity="center"
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
-            android:text="MomoMotus"
+            android:text="@string/app_name"
             android:textColor="@color/red_darken1"
             android:textSize="@dimen/maintitle_app" />
 
@@ -64,6 +64,7 @@
 
             <RadioButton
                 android:id="@+id/radio_six"
+                android:checked="true"
                 android:width="@dimen/radio_width"
                 android:paddingTop="@dimen/radio_vertical_margin"
                 android:paddingBottom="@dimen/radio_vertical_margin"
