@@ -5,6 +5,9 @@
         android:icon="@drawable/ic_more_vert_white_24dp"
         yourapp:showAsAction="ifRoom">
         <item
+            android:id="@+id/action_help"
+            android:title="@string/need_help" />
+        <item
             android:id="@+id/action_home"
             android:title="@string/button_reload" />
     </group>

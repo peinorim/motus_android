@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:id="@+id/scrollView"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="10sp"
         android:gravity="center_horizontal|center_vertical"
         tools:context=".MainActivity">
 
@@ -133,6 +134,18 @@
             android:text="@string/button_send"
             android:textColor="@color/white"
             android:textSize="@dimen/btnsend" />
+
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnsend"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textColor="@color/black"
+            android:text="@string/blank"
+            android:textSize="@dimen/min_text_size" />
 
     </RelativeLayout>
 </ScrollView>

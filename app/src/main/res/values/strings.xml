@@ -27,4 +27,10 @@
     <string name="nontrouve">&#160;non trouvé.</string>
     <string name="interstitial">ca-app-pub-2669557761715669/7770214839</string>
     <string name="banner_bottom">ca-app-pub-2669557761715669/4459614036</string>
+    <string name="ok">ok</string>
+    <string name="close">Fermer</string>
+    <string name="need_help">Besoin d\'aide ?</string>
+    <string name="red_explanation">est une lettre bien placée.</string>
+    <string name="yellow_explanation">est une lettre mal placée.</string>
+    <string name="blue_explanation">est une lettre qui n\'est pas dans le mot.</string>
 </resources>

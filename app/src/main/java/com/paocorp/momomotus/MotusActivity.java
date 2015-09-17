@@ -1,8 +1,10 @@
 package com.paocorp.momomotus;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -49,6 +51,7 @@ public class MotusActivity extends AppCompatActivity {
     Map<Integer, String> map = new HashMap<>();
     AdView adView;
     String loc;
+    AlertDialog dialog;
 
     public void checkMot(View v) {
         sendMot.setEnabled(false);
@@ -364,6 +367,7 @@ public class MotusActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_motus, menu);
+        menu.getItem(0).setIcon(R.drawable.ic_more_vert_white_24dp);
         return true;
     }
 
@@ -380,6 +384,9 @@ public class MotusActivity extends AppCompatActivity {
             System.exit(0);
             this.startActivity(new Intent(this, MainActivity.class));
             return true;
+        } else if (id == R.id.action_help) {
+            createHelpDialog();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -390,5 +397,22 @@ public class MotusActivity extends AppCompatActivity {
         System.exit(0);
         this.startActivity(new Intent(this, MainActivity.class));
         return;
+    }
+
+    public void createHelpDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.help_dialog, null))
+                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

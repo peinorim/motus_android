@@ -2,6 +2,8 @@ package com.paocorp.momomotus;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -68,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        TextView txt_version = (TextView) findViewById(R.id.app_version);
+        PackageInfo pInfo;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            txt_version.setText("v" + pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
