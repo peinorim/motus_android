@@ -34,4 +34,5 @@
     <string name="blue_explanation">this letter is not in the word</string>
     <string name="red_explanation">letter well placed</string>
     <string name="yellow_explanation">letter misplaced</string>
+    <string name="A">A</string>
 </resources>

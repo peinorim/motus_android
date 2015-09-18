@@ -34,8 +34,9 @@
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/square_red"
-                android:padding="10sp"
-                android:text="A"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:text="@string/A"
                 android:textColor="@color/white"
                 android:textSize="@dimen/reduced_text_size" />
 
@@ -64,8 +65,9 @@
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/square_yellow"
-                android:padding="10sp"
-                android:text="A"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:text="@string/A"
                 android:textColor="@color/white"
                 android:textSize="@dimen/reduced_text_size" />
 
@@ -90,12 +92,12 @@
                 android:id="@+id/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/square_blue"
-                android:padding="10sp"
-                android:text="A"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:text="@string/A"
                 android:textColor="@color/white"
                 android:textSize="@dimen/reduced_text_size" />
 

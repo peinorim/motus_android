@@ -33,4 +33,5 @@
     <string name="red_explanation">est une lettre bien placée.</string>
     <string name="yellow_explanation">est une lettre mal placée.</string>
     <string name="blue_explanation">est une lettre qui n\'est pas dans le mot.</string>
+    <string name="A">A</string>
 </resources>
