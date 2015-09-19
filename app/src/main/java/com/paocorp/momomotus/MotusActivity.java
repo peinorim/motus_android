@@ -78,7 +78,7 @@ public class MotusActivity extends AppCompatActivity {
 
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
-
+                        map.clear();
                         loadToast(this.getResources().getString(R.string.the_word) + partie.getMot(partie.getCurrent() - 1).getMot() + this.getResources().getString(R.string.trouve), true);
 
                     } else if (!mot.isTrouve() && mot.isFini()) {
@@ -93,6 +93,7 @@ public class MotusActivity extends AppCompatActivity {
 
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
+                        map.clear();
 
                         if (existe) {
                             loadToast(this.getResources().getString(R.string.fallait_trouver) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
