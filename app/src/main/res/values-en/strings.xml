@@ -35,4 +35,11 @@
     <string name="red_explanation">letter well placed</string>
     <string name="yellow_explanation">letter misplaced</string>
     <string name="A">A</string>
+    <string name="fb_share">Share on Facebook</string>
+    <string name="fb_share_title">I have played FindTheWords !</string>
+    <string name="fb_ContentDesc">Today I played FindTheWords !</string>
+    <string name="fb_ContentDesc2">I found the words :&#160;</string>
+    <string name="facebook_app_id">914409908597657</string>
+    <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
+    <string name="app_icon_url">http://paocorp.com/res/images/ico/ic_launcher_en.png</string>
 </resources>

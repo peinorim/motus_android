@@ -3,10 +3,12 @@ package com.paocorp.momomotus;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -22,6 +24,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.paocorp.models.Mot;
@@ -51,7 +57,10 @@ public class MotusActivity extends AppCompatActivity {
     Map<Integer, String> map = new HashMap<>();
     AdView adView;
     String loc;
-    AlertDialog dialog;
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+    String fbMots;
+    private Toolbar toolbar;
 
     public void checkMot(View v) {
         sendMot.setEnabled(false);
@@ -103,6 +112,7 @@ public class MotusActivity extends AppCompatActivity {
                     } else {
                         parseRes(partie.getMot(partie.getCurrent()).getVerif());
                     }
+                    //loadToast(partie.getMot(partie.getCurrent()).getMot(),false);
                     inputMot = (EditText) findViewById(R.id.edit_message);
                     inputMot.getText().clear();
                     sendMot.setEnabled(true);
@@ -127,6 +137,28 @@ public class MotusActivity extends AppCompatActivity {
         this.startActivity(new Intent(this, MainActivity.class));
     }
 
+    public void shareFB(View v) {
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            String fbText = getResources().getString(R.string.fb_ContentDesc);
+            if (fbMots != null) {
+                fbText += fbMots;
+            }
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse(getResources().getString(R.string.store_url)))
+                    .setContentTitle(getResources().getString(R.string.fb_share_title))
+                    .setContentDescription(fbText)
+                    .setImageUrl(Uri.parse(getResources().getString(R.string.app_icon_url)))
+                    .build();
+
+            shareDialog.show(linkContent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +207,10 @@ public class MotusActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
     }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -219,6 +255,10 @@ public class MotusActivity extends AppCompatActivity {
             TextView tview = ((TextView) findViewById(resID));
 
             if (partie.getMot(i).isTrouve()) {
+                if (fbMots != null) {
+                    fbMots += ",&#160;";
+                }
+                fbMots += partie.getMot(i).getMot();
                 if (partie.getMot(i).getLigne() == 1) {
                     tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.premier_coup));
                 } else {

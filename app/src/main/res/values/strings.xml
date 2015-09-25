@@ -34,4 +34,11 @@
     <string name="yellow_explanation">est une lettre mal placée.</string>
     <string name="blue_explanation">est une lettre qui n\'est pas dans le mot.</string>
     <string name="A">A</string>
+    <string name="fb_share">Partager sur Facebook</string>
+    <string name="fb_share_title">J\'ai joué à Momomotus !</string>
+    <string name="fb_ContentDesc">Aujourd\'hui j\'ai joué à Momomotus !</string>
+    <string name="fb_ContentDesc2">J\'ai trouvé les mots :&#160;</string>
+    <string name="facebook_app_id">914409908597657</string>
+    <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
+    <string name="app_icon_url">http://paocorp.com/res/images/ico/ic_launcher_fr.png</string>
 </resources>

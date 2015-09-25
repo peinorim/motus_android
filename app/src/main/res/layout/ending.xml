@@ -102,11 +102,28 @@
             android:textColor="@color/white"
             android:textSize="@dimen/btnsend" />
 
+        <Button
+            android:id="@+id/fbshare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/backhome"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_fb"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/com_facebook_button_icon"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:onClick="shareFB"
+            android:paddingLeft="21dp"
+            android:paddingRight="21dp"
+            android:text="@string/fb_share"
+            android:textColor="@color/white"
+            android:textSize="@dimen/btnsend" />
+
         <RelativeLayout
             android:id="@+id/rel_banner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/backhome"
+            android:layout_below="@+id/fbshare"
             android:layout_marginTop="@dimen/activity_vertical_margin">
 
             <com.google.android.gms.ads.AdView
