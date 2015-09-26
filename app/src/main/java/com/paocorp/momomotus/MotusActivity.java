@@ -145,7 +145,7 @@ public class MotusActivity extends AppCompatActivity {
             }
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
                     .setContentUrl(Uri.parse(getResources().getString(R.string.store_url)))
-                    .setContentTitle(getResources().getString(R.string.fb_share_title))
+                    .setContentTitle(getResources().getString(R.string.app_name))
                     .setContentDescription(fbText)
                     .setImageUrl(Uri.parse(getResources().getString(R.string.app_icon_url)))
                     .build();
