@@ -41,4 +41,7 @@
     <string name="facebook_app_id">914409908597657</string>
     <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
     <string name="app_icon_url">http://paocorp.com/res/images/ico/ic_launcher_fr.png</string>
+    <string name="credits">Application développée par : paocorp.com</string>
+    <string name="open">Ouvrir</string>
+    <string name="new_game">Nouvelle partie</string>
 </resources>

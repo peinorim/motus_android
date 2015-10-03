@@ -10,6 +10,7 @@
     <dimen name="btnsend">20sp</dimen>
     <dimen name="standard_text_size">40sp</dimen>
     <dimen name="reduced_text_size">35sp</dimen>
+    <dimen name="normal_text_size">15sp</dimen>
     <dimen name="min_text_size">12sp</dimen>
     <dimen name="grid_six_width">340sp</dimen>
     <dimen name="grid_seven_width">340sp</dimen>

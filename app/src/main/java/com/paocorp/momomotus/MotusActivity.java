@@ -1,13 +1,20 @@
 package com.paocorp.momomotus;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -21,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +40,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.paocorp.models.Mot;
 import com.paocorp.models.Motus;
+import com.paocorp.navigationdrawer.MyAdapter;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -60,7 +69,68 @@ public class MotusActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     String fbMots;
-    private Toolbar toolbar;
+    RadioGroup optGame;
+    Button startGame;
+    ProgressDialog dialog;
+    PackageInfo pInfo;
+
+    String TITLES[] = {"Home"};
+    int ICONS[] = {R.drawable.ic_action_content_clear};
+
+    //Similarly we Create a String Resource for the name and email in the header view
+    //And we also create a int resource for profile picture in the header view
+
+    String APPINFO;
+    String CREDITS;
+    int PROFILE = R.drawable.com_facebook_profile_picture_blank_portrait;
+
+    private Toolbar toolbar;                              // Declaring the Toolbar Object
+    RecyclerView mRecyclerView;                           // Declaring RecyclerView
+    RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
+    RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
+    DrawerLayout Drawer;                                  // Declaring DrawerLayout
+
+    ActionBarDrawerToggle mDrawerToggle;
+
+    public void startGame(View v) {
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(this.getResources().getString(R.string.loading));
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        startGame.setEnabled(false);
+        startGame.setTextColor(this.getResources().getColor(R.color.white));
+        startGame.setBackgroundResource(R.drawable.button_disabled);
+        Intent intent = new Intent(MotusActivity.this, MotusActivity.class);
+        Bundle b = new Bundle();
+        if (optGame.getCheckedRadioButtonId() == R.id.radio_six) {
+            b.putInt("nb", 6);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_seven) {
+            b.putInt("nb", 7);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_eight) {
+            b.putInt("nb", 8);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_nine) {
+            b.putInt("nb", 9);
+            intent.putExtras(b);
+            startActivity(intent);
+            finish();
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_ten) {
+            b.putInt("nb", 10);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else {
+            b.putInt("nb", 6);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+    }
 
     public void checkMot(View v) {
         sendMot.setEnabled(false);
@@ -175,6 +245,56 @@ public class MotusActivity extends AppCompatActivity {
 
         setContentView(layId);
 
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+
+        mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
+        APPINFO = getResources().getString(R.string.app_name);
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            APPINFO += " v" + pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        CREDITS = getResources().getString(R.string.credits);
+
+        mAdapter = new MyAdapter(TITLES, ICONS, APPINFO, CREDITS, PROFILE);       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+        // And passing the titles,icons,header view name, header view email,
+        // and header view profile picture
+
+        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
+
+        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+
+        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
+
+
+        Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
+        mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.open, R.string.close) {
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened
+                // Capture our button from layout
+                startGame = (Button) findViewById(R.id.btnsend);
+                startGame.setEnabled(true);
+                optGame = (RadioGroup) findViewById(R.id.optGame);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+        }; // Drawer Toggle Object Made
+        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();
+
         l1c1 = (TextView) findViewById(R.id.l1c1);
         counter = (TextView) findViewById(R.id.counter);
         inputMot = (EditText) findViewById(R.id.edit_message);
@@ -211,6 +331,8 @@ public class MotusActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
+
+
     }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -438,6 +560,10 @@ public class MotusActivity extends AppCompatActivity {
         System.exit(0);
         this.startActivity(new Intent(this, MainActivity.class));
         return;
+    }
+
+    public boolean onRadioButtonClicked(View v) {
+        return true;
     }
 
     public void createHelpDialog() {
