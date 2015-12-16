@@ -8,6 +8,11 @@
     <string name="eight_letters">Mots de 8 lettres</string>
     <string name="nine_letters">Mots de 9 lettres</string>
     <string name="ten_letters">Mots de 10 lettres</string>
+    <string name="new_six">Nouvelle partie à 6 lettres</string>
+    <string name="new_seven">Nouvelle partie à 7 lettres</string>
+    <string name="new_eight">Nouvelle partie à 8 lettres</string>
+    <string name="new_nine">Nouvelle partie à 9 lettres</string>
+    <string name="new_ten">Nouvelle partie à 10 lettres</string>
     <string name="button_send">Démarrer une partie</string>
     <string name="loading">Veuillez patienter svp...</string>
     <string name="button_reload">Retour vers l\'accueil</string>
@@ -34,6 +39,7 @@
     <string name="yellow_explanation">est une lettre mal placée.</string>
     <string name="blue_explanation">est une lettre qui n\'est pas dans le mot.</string>
     <string name="A">A</string>
+    <string name="social_networks">Réseaux sociaux</string>
     <string name="fb_share">Partager sur Facebook</string>
     <string name="fb_share_title">J\'ai joué à Momomotus !</string>
     <string name="fb_ContentDesc">Aujourd\'hui j\'ai joué à Momomotus !</string>
@@ -44,4 +50,9 @@
     <string name="credits">Application développée par : paocorp.com</string>
     <string name="open">Ouvrir</string>
     <string name="new_game">Nouvelle partie</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Paramètres</string>
 </resources>

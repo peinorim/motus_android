@@ -1,33 +1,22 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="actionBarStyle">@style/MyActionBar</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:textColor">@color/black</item>
         <item name="colorPrimary">@color/red_darken2</item>
         <item name="colorPrimaryDark">@color/red_darken4</item>
+        <item name="colorAccent">@color/teal_lighten1</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="colorAccent">@color/teal</item>
-        <item name="android:textColorSecondary">@color/teal</item>
     </style>
 
-    <!-- ActionBar styles -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/red_darken2</item>
-        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorPrimaryDark">@color/red_darken4</item>
-    </style>
-
-    <style name="MyActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="DrawerToolbar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/teal_darken2</item>
-    </style>
 
 </resources>

@@ -1,6 +1,7 @@
 MomoMotus - FindTheWords
 =====
 
+* v2.4 : Rework navigation drawer and layouts
 * v2.3 : Navigation Drawer
 * v2.2 : Android 6.0 support + Facebook sdk
 * v2.1.2 : Fix bug affecting well-placed letters.

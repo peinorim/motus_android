@@ -7,13 +7,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -29,9 +29,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
@@ -40,7 +40,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.paocorp.models.Mot;
 import com.paocorp.models.Motus;
-import com.paocorp.navigationdrawer.MyAdapter;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -57,7 +56,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-public class MotusActivity extends AppCompatActivity {
+public class MotusActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     EditText inputMot;
     Button sendMot;
@@ -81,7 +80,6 @@ public class MotusActivity extends AppCompatActivity {
     //And we also create a int resource for profile picture in the header view
 
     String APPINFO;
-    String CREDITS;
     int PROFILE = R.drawable.com_facebook_profile_picture_blank_portrait;
 
     private Toolbar toolbar;                              // Declaring the Toolbar Object
@@ -233,6 +231,7 @@ public class MotusActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Bundle b = getIntent().getExtras();
         int nb = b.getInt("nb");
@@ -240,17 +239,28 @@ public class MotusActivity extends AppCompatActivity {
 
         String game_layout = "game_" + partie.getNb();
 
-        Resources res = this.getResources();
-        int layId = res.getIdentifier(game_layout, "layout", this.getPackageName());
+        Resources res = getResources();
+        int layId = res.getIdentifier(game_layout, "layout", getPackageName());
 
-        setContentView(layId);
+        RelativeLayout main_content = (RelativeLayout) findViewById(R.id.content_main_include);
+        View child = getLayoutInflater().inflate(layId, null);
+        main_content.removeAllViews();
+        main_content.addView(child);
 
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
 
-        mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
+
         APPINFO = getResources().getString(R.string.app_name);
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -258,42 +268,6 @@ public class MotusActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        CREDITS = getResources().getString(R.string.credits);
-
-        mAdapter = new MyAdapter(TITLES, ICONS, APPINFO, CREDITS, PROFILE);       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-        // And passing the titles,icons,header view name, header view email,
-        // and header view profile picture
-
-        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
-
-        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
-
-        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
-
-
-        Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);        // Drawer object Assigned to the view
-        mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.open, R.string.close) {
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened
-                // Capture our button from layout
-                startGame = (Button) findViewById(R.id.btnsend);
-                startGame.setEnabled(true);
-                optGame = (RadioGroup) findViewById(R.id.optGame);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed
-            }
-
-
-        }; // Drawer Toggle Object Made
-        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
-        mDrawerToggle.syncState();
 
         l1c1 = (TextView) findViewById(R.id.l1c1);
         counter = (TextView) findViewById(R.id.counter);
@@ -309,7 +283,7 @@ public class MotusActivity extends AppCompatActivity {
 
         l1c1.setText(String.valueOf(partie.getMots().get(0).getMot().toUpperCase().charAt(0)));
         l1c1.setBackgroundResource(R.drawable.square_red);
-        counter.setText("0/" + String.valueOf(partie.getNb()));
+        counter.setText("0/" + partie.getNb());
         inputMot.addTextChangedListener(mTextEditorWatcher);
         loadBanner();
 
@@ -331,7 +305,6 @@ public class MotusActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
-
 
     }
 
@@ -556,10 +529,11 @@ public class MotusActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
         finish();
-        System.exit(0);
-        this.startActivity(new Intent(this, MainActivity.class));
-        return;
     }
 
     public boolean onRadioButtonClicked(View v) {
@@ -581,5 +555,48 @@ public class MotusActivity extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        Intent intent = new Intent(this, MotusActivity.class);
+        Bundle b = new Bundle();
+
+        int id = item.getItemId();
+        if (id == R.id.nav_share_fb) {
+            if (ShareDialog.canShow(ShareLinkContent.class)) {
+                String fbText = getResources().getString(R.string.fb_ContentDesc);
+                ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse(getResources().getString(R.string.store_url)))
+                        .setContentTitle(getResources().getString(R.string.app_name))
+                        .setContentDescription(fbText)
+                        .setImageUrl(Uri.parse(getResources().getString(R.string.app_icon_url)))
+                        .build();
+
+                shareDialog.show(linkContent);
+            }
+        } else if (id == R.id.new_6) {
+            b.putInt("nb", 6);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (id == R.id.new_7) {
+            b.putInt("nb", 7);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (id == R.id.new_8) {
+            b.putInt("nb", 8);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (id == R.id.new_9) {
+            b.putInt("nb", 9);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (id == R.id.new_10) {
+            b.putInt("nb", 10);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+        return true;
     }
 }
