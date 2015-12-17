@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/new_6"
-            android:icon="@drawable/ic_action_6"
+            android:icon="@drawable/ic_6"
             android:title="@string/new_six" />
         <item
             android:id="@+id/new_7"
-            android:icon="@drawable/ic_action_7"
+            android:icon="@drawable/ic_7"
             android:title="@string/new_seven" />
         <item
             android:id="@+id/new_8"
-            android:icon="@drawable/ic_action_8"
+            android:icon="@drawable/ic_8"
             android:title="@string/new_eight" />
         <item
             android:id="@+id/new_9"
-            android:icon="@drawable/ic_action_9"
+            android:icon="@drawable/ic_9"
             android:title="@string/new_nine" />
         <item
             android:id="@+id/new_10"
-            android:icon="@drawable/ic_action_10"
+            android:icon="@drawable/ic_10"
             android:title="@string/new_ten" />
     </group>
 

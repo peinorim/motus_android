@@ -171,25 +171,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (id == R.id.new_6) {
             b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (id == R.id.new_7) {
             b.putInt("nb", 7);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (id == R.id.new_8) {
             b.putInt("nb", 8);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (id == R.id.new_9) {
             b.putInt("nb", 9);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (id == R.id.new_10) {
             b.putInt("nb", 10);
-            intent.putExtras(b);
-            startActivity(intent);
         }
+        intent.putExtras(b);
+        startActivity(intent);
         return true;
     }
 
