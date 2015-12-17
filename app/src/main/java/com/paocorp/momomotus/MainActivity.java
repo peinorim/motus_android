@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -95,19 +94,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
-        APPINFO = getResources().getString(R.string.app_name);
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            APPINFO += " v" + pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
         TextView txt_version = (TextView) findViewById(R.id.app_version);
 
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            txt_version.setText("v" + pInfo.versionName);
+            txt_version.setText(String.format("%s v%s", this.getResources().getString(R.string.app_name), pInfo.versionName));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

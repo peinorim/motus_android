@@ -79,7 +79,6 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
     //Similarly we Create a String Resource for the name and email in the header view
     //And we also create a int resource for profile picture in the header view
 
-    String APPINFO;
     int PROFILE = R.drawable.com_facebook_profile_picture_blank_portrait;
 
     private Toolbar toolbar;                              // Declaring the Toolbar Object
@@ -261,10 +260,10 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
         LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
-        APPINFO = getResources().getString(R.string.app_name);
+        TextView txt_version = (TextView) findViewById(R.id.app_version);
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            APPINFO += " v" + pInfo.versionName;
+            txt_version.setText(String.format("%s v%s", this.getResources().getString(R.string.app_name), pInfo.versionName));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
