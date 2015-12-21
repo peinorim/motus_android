@@ -3,7 +3,7 @@ package com.paocorp.models;
 public class Lettre {
 
     String caractere;
-    String placement;
+    String placement = "";
     Integer position;
 
     public Lettre(String c, Integer p){

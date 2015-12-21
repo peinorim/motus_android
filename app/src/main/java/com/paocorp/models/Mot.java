@@ -2,12 +2,13 @@ package com.paocorp.models;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Mot {
 
     String mot;
     ArrayList<Lettre> lettres;
-    ArrayList verif;
+    HashMap verif;
     boolean trouve = false;
     boolean existe = true;
     boolean fini = false;
@@ -19,7 +20,7 @@ public class Mot {
 
     public Mot(String mot) {
         this.lettres = new ArrayList<Lettre>();
-        this.verif = new ArrayList<>();
+        this.verif = new HashMap<Integer, Mot>();
         this.mot = stripAccents(mot.toLowerCase());
 
         String[] caracs = mot.split("");
@@ -34,10 +35,12 @@ public class Mot {
             if (this.verif.size() > 0) {
                 this.verif.clear();
             }
+
+            this.firstPassage(mot);
+
             for (int i = 0; i < mot.getLettres().size(); i++) {
-                if (this.getLettres().get(i).getCaractere().equals(mot.getLettres().get(i).getCaractere())) {
-                    this.getLettres().get(i).setPlacement(this.exact);
-                } else {
+                if (!this.getLettres().get(i).getCaractere().equals(mot.getLettres().get(i).getCaractere())) {
+
                     if (this.countOccurrences(this.mot, mot.getLettres().get(i).getCaractere()) == 0) {
                         this.getLettres().get(i).setPlacement(this.nontrouve);
                     } else {
@@ -60,12 +63,12 @@ public class Mot {
                             this.getLettres().get(i).setPlacement(this.malplace);
                         }
                     }
+                    String[] averif = {
+                            mot.getLettres().get(i).getCaractere(),
+                            this.lettres.get(i).getPlacement()
+                    };
+                    this.verif.put(i, averif);
                 }
-                String[] averif = {
-                        mot.getLettres().get(i).getCaractere(),
-                        this.lettres.get(i).getPlacement()
-                };
-                this.verif.add(averif);
             }
 
             this.estTrouve();
@@ -76,13 +79,27 @@ public class Mot {
 
     }
 
+    private void firstPassage(Mot mot){
+        for (int i = 0; i < mot.getLettres().size(); i++) {
+            if (this.getLettres().get(i).getCaractere().equals(mot.getLettres().get(i).getCaractere())) {
+                this.getLettres().get(i).setPlacement(this.exact);
+                String[] averif = {
+                        mot.getLettres().get(i).getCaractere(),
+                        this.lettres.get(i).getPlacement()
+                };
+                this.verif.put(i, averif);
+            }
+        }
+    }
+
     public void soluce() {
+        this.verif.clear();
         for (int i = 0; i < this.lettres.size(); i++) {
             String[] anArray = {
                     this.lettres.get(i).getCaractere(),
                     this.exact
             };
-            this.verif.add(anArray);
+            this.verif.put(i, anArray);
         }
     }
 
@@ -122,11 +139,11 @@ public class Mot {
         this.lettres = lettres;
     }
 
-    public ArrayList getVerif() {
+    public HashMap getVerif() {
         return this.verif;
     }
 
-    public void setVerif(ArrayList verif) {
+    public void setVerif(HashMap verif) {
         this.verif = verif;
     }
 

@@ -45,7 +45,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -364,7 +363,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    private void parseRes(ArrayList verif) {
+    private void parseRes(HashMap verif) {
 
         int prev = partie.getLigne() - 1;
         int next = partie.getLigne();
