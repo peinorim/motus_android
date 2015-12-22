@@ -79,7 +79,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
     int PROFILE = R.drawable.com_facebook_profile_picture_blank_portrait;
 
-    private Toolbar toolbar;                              // Declaring the Toolbar Object
+    Toolbar toolbar;                              // Declaring the Toolbar Object
     DrawerLayout Drawer;                                  // Declaring DrawerLayout
 
     ActionBarDrawerToggle mDrawerToggle;
@@ -144,7 +144,8 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                         Resources res = getResources();
                         int layId = res.getIdentifier(game_layout, "layout", getPackageName());
 
-                        setContentView(layId);
+                        loadToolbarAndDrawer(layId);
+
                         l1c1 = (TextView) findViewById(R.id.l1c1);
 
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
@@ -159,7 +160,8 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                         Resources res = getResources();
                         int layId = res.getIdentifier(game_layout, "layout", getPackageName());
 
-                        setContentView(layId);
+                        loadToolbarAndDrawer(layId);
+
                         l1c1 = (TextView) findViewById(R.id.l1c1);
 
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
@@ -174,7 +176,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                     } else {
                         parseRes(partie.getMot(partie.getCurrent()).getVerif());
                     }
-                    //loadToast(partie.getMot(partie.getCurrent()).getMot(),false);
+
                     inputMot = (EditText) findViewById(R.id.edit_message);
                     inputMot.getText().clear();
                     sendMot.setEnabled(true);
@@ -182,7 +184,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                     counter.setText("0/" + String.valueOf(partie.getNb()));
                     inputMot.addTextChangedListener(mTextEditorWatcher);
                 } else {
-                    setContentView(R.layout.ending);
+                    loadToolbarAndDrawer(R.layout.ending);
                     loadEnding(partie);
                 }
             }
@@ -191,6 +193,27 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadToolbarAndDrawer(Integer layoutId){
+        RelativeLayout main_content = (RelativeLayout) findViewById(R.id.content_main_include);
+        View child = getLayoutInflater().inflate(layoutId, null);
+        main_content.removeAllViews();
+        main_content.addView(child);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
     }
 
     public void backHome(View v) {
@@ -241,7 +264,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         main_content.removeAllViews();
         main_content.addView(child);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -570,6 +593,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
                 shareDialog.show(linkContent);
             }
+            return true;
         } else if (id == R.id.new_6) {
             b.putInt("nb", 6);
         } else if (id == R.id.new_7) {

@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 shareDialog.show(linkContent);
             }
+            return true;
         } else if (id == R.id.new_6) {
             b.putInt("nb", 6);
         } else if (id == R.id.new_7) {
