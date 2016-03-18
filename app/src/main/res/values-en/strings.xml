@@ -8,7 +8,7 @@
     <string name="endtitle">Game over !</string>
     <string name="loading">Please wait...</string>
     <string name="mainerror">You must choose one of these options</string>
-    <string name="mainsubtitle">Choose the number of letters per word and start the game. 5 words are to be found per game.</string>
+    <string name="mainsubtitle">Pick a number of letters per word and start the game. 5 words are to be found per game.</string>
     <string name="maintitle">Welcome to</string>
     <string name="mot">Write your word</string>
     <string name="nine_letters">9 letter words</string>

@@ -1,6 +1,7 @@
 MomoMotus - FindTheWords
 =====
 
+* v2.6 : Fix bug affecting blank squares
 * v2.5 : Improvement of the word comparison algorithm
 * v2.4 : Rework navigation drawer and layouts
 * v2.3 : Navigation Drawer

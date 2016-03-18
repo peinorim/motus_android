@@ -55,7 +55,7 @@ public class Mot {
                                     this.getLettres().get(i).setPlacement(this.malplace);
                                 }
                             }
-                            if(this.getLettres().get(i).getPlacement() == null){
+                            if (this.getLettres().get(i).getPlacement().isEmpty()) {
                                 this.getLettres().get(i).setPlacement(this.nontrouve);
                             }
 
@@ -79,7 +79,7 @@ public class Mot {
 
     }
 
-    private void firstPassage(Mot mot){
+    private void firstPassage(Mot mot) {
         for (int i = 0; i < mot.getLettres().size(); i++) {
             if (this.getLettres().get(i).getCaractere().equals(mot.getLettres().get(i).getCaractere())) {
                 this.getLettres().get(i).setPlacement(this.exact);
