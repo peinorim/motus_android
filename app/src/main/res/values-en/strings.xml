@@ -54,4 +54,6 @@
     <string name="new_seven">New 7 letter game</string>
     <string name="new_six">New 6 letter game</string>
     <string name="new_ten">New 10 letter game</string>
+    <string name="rate_app">Rate this app</string>
+    <string name="app_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
 </resources>

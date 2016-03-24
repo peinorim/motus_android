@@ -441,12 +441,12 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
         InputSource inputSrc;
         loc = Locale.getDefault().getLanguage();
-        String en = "";
-        if (loc.equals("en")) {
-            en = "_en";
+        String locCode = "_en";
+        if (loc.equals("fr")) {
+            locCode = "_fr";
         }
 
-        String xmlraw = "xml_" + partie.getNb() + en;
+        String xmlraw = "xml_" + partie.getNb() + locCode;
 
         Resources res = this.getResources();
         int rawId = res.getIdentifier(xmlraw, "raw", this.getPackageName());
@@ -476,12 +476,12 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
     private boolean existe(String mot) throws Exception {
         InputSource inputSrc;
         loc = Locale.getDefault().getLanguage();
-        String en = "";
-        if (loc.equals("en")) {
-            en = "_en";
+        String locCode = "_en";
+        if (loc.equals("fr")) {
+            locCode = "_fr";
         }
 
-        String xmlraw = "xml_" + partie.getNb() + en;
+        String xmlraw = "xml_" + partie.getNb() + locCode;
 
         Resources res = this.getResources();
         int rawId = res.getIdentifier(xmlraw, "raw", this.getPackageName());
@@ -604,6 +604,8 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
             b.putInt("nb", 9);
         } else if (id == R.id.new_10) {
             b.putInt("nb", 10);
+        } else if (id == R.id.rate_app) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_url)));
         }
         intent.putExtras(b);
         finish();

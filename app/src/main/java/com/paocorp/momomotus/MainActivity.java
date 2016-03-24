@@ -180,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             b.putInt("nb", 9);
         } else if (id == R.id.new_10) {
             b.putInt("nb", 10);
+        } else if (id == R.id.rate_app) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_url)));
         }
         intent.putExtras(b);
         startActivity(intent);

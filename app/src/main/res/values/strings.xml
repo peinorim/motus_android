@@ -50,6 +50,8 @@
     <string name="credits">Application développée par : paocorp.com</string>
     <string name="open">Ouvrir</string>
     <string name="new_game">Nouvelle partie</string>
+    <string name="rate_app">Noter cette application</string>
+    <string name="app_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

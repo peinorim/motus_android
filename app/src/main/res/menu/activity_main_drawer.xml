@@ -22,6 +22,10 @@
             android:id="@+id/new_10"
             android:icon="@drawable/ic_10"
             android:title="@string/new_ten" />
+        <item
+            android:id="@+id/rate_app"
+            android:icon="@drawable/ic_grade_24dp"
+            android:title="@string/rate_app" />
     </group>
 
     <item android:title="@string/social_networks">
