@@ -1,6 +1,8 @@
 MomoMotus - FindTheWords
 =====
 
+* v2.8 : Rework word comparison algorithm
+* v2.7 : Get words definition on ending screen
 * v2.6 : Fix bug affecting blank squares
 * v2.5 : Improvement of the word comparison algorithm
 * v2.4 : Rework navigation drawer and layouts

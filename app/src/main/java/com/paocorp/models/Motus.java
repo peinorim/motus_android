@@ -43,9 +43,9 @@ public class Motus {
         if(fin && !this.isComplete()){
             rang++;
             this.setCurrent(rang);
-            mot.soluce();
+            //mot.soluce();
         } else if(this.isComplete()){
-            mot.soluce();
+            //mot.soluce();
         }
 
         return mot;

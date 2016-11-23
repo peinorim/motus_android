@@ -8,22 +8,24 @@ public class Mot {
 
     String mot;
     ArrayList<Lettre> lettres;
-    HashMap verif;
     boolean trouve = false;
     boolean existe = true;
     boolean fini = false;
     boolean recursif = false;
     int ligne = 1;
+    String[] caracs;
+    public static HashMap<Integer, String> verif = new HashMap<Integer, String>();
+    public static HashMap<Integer, String> saveVerif = new HashMap<Integer, String>();
     String malplace = "yellow";
     String exact = "red";
     String nontrouve = "blue";
 
     public Mot(String mot) {
         this.lettres = new ArrayList<Lettre>();
-        this.verif = new HashMap<Integer, Mot>();
+        this.verif = new HashMap<Integer, String>();
         this.mot = stripAccents(mot.toLowerCase());
 
-        String[] caracs = mot.split("");
+        this.caracs = mot.split("");
         for (int i = 0; i < caracs.length; i++) {
             this.lettres.add(new Lettre(caracs[i], i));
         }
@@ -31,75 +33,65 @@ public class Mot {
 
     public void compare(Mot mot) throws Exception {
 
-        if (this.existe) {
-            if (this.verif.size() > 0) {
-                this.verif.clear();
-            }
+        String lettresEssai[] = mot.getMot().split("");
+        String lettresBase[] = this.getMot().split("");
+        this.trouve = true;
 
-            this.firstPassage(mot);
+        for (int i = 0; i < lettresEssai.length; i++) {
 
-            for (int i = 0; i < mot.getLettres().size(); i++) {
-                if (!this.getLettres().get(i).getCaractere().equals(mot.getLettres().get(i).getCaractere())) {
+            String currLettreEssai = lettresEssai[i];
 
-                    if (this.countOccurrences(this.mot, mot.getLettres().get(i).getCaractere()) == 0) {
-                        this.getLettres().get(i).setPlacement(this.nontrouve);
-                    } else {
+            if (!currLettreEssai.isEmpty()) {
 
-                        int nbTry = this.countOccurrences(mot.getMot(), mot.getLettres().get(i).getCaractere());
-                        int nbMot = this.countOccurrences(this.mot, mot.getLettres().get(i).getCaractere());
-                        if (nbTry > nbMot) {
-                            for (int j = 0; j < mot.getLettres().size(); j++) {
-                                if (mot.getLettres().get(i).getCaractere().equals(mot.getLettres().get(j).getCaractere())
-                                        && this.getLettres().get(j).getPlacement() == this.nontrouve
-                                        && i != j) {
-                                    this.getLettres().get(i).setPlacement(this.malplace);
-                                }
-                            }
-                            if (this.getLettres().get(i).getPlacement().isEmpty()) {
-                                this.getLettres().get(i).setPlacement(this.nontrouve);
-                            }
+                boolean checked = false;
 
-                        } else {
-                            this.getLettres().get(i).setPlacement(this.malplace);
-                        }
+                int m = 0;
+                while (m < lettresBase.length) {
+                    String currLettreBase = lettresBase[m];
+                    if ((i == m && currLettreEssai.equals(currLettreBase))) {
+                        verif.put(i, exact);
+                        saveVerif.put(m, exact);
                     }
-                    String[] averif = {
-                            mot.getLettres().get(i).getCaractere(),
-                            this.lettres.get(i).getPlacement()
-                    };
-                    this.verif.put(i, averif);
+                    m++;
+                }
+
+                for (int j = 0; j < lettresBase.length; j++) {
+
+                    String currLettreBase = lettresBase[j];
+
+                    if (!checked && !currLettreBase.isEmpty()) {
+
+                        if ((i == j && currLettreEssai.equals(currLettreBase)) || currLettreEssai.equals(lettresBase[i])) {
+                            verif.put(i, exact);
+                            saveVerif.put(i, exact);
+                        } else {
+                            this.trouve = false;
+                            int countOccur = countOccurrences(this.getMot(),
+                                    lettresEssai[i]);
+                            if (countOccur >= 1) {
+                                for (int k = 0; k < lettresBase.length; k++) {
+
+                                    if (lettresEssai[i].equals(lettresBase[k])) {
+                                        if (saveVerif.get(k) != null) {
+                                            verif.put(i, nontrouve);
+                                            //saveVerif.put(k, nontrouve);
+                                        } else {
+                                            verif.put(i, malplace);
+                                            saveVerif.put(k, malplace);
+                                        }
+                                    }
+                                }
+
+                            } else if (countOccur == 0) {
+                                verif.put(i, nontrouve);
+                                //saveVerif.put(i, nontrouve);
+                            }
+                        }
+                        checked = true;
+                    }
                 }
             }
 
-            this.estTrouve();
-        } else {
-            this.fini = true;
-            this.trouve = false;
-        }
-
-    }
-
-    private void firstPassage(Mot mot) {
-        for (int i = 0; i < mot.getLettres().size(); i++) {
-            if (this.getLettres().get(i).getCaractere().equals(mot.getLettres().get(i).getCaractere())) {
-                this.getLettres().get(i).setPlacement(this.exact);
-                String[] averif = {
-                        mot.getLettres().get(i).getCaractere(),
-                        this.lettres.get(i).getPlacement()
-                };
-                this.verif.put(i, averif);
-            }
-        }
-    }
-
-    public void soluce() {
-        this.verif.clear();
-        for (int i = 0; i < this.lettres.size(); i++) {
-            String[] anArray = {
-                    this.lettres.get(i).getCaractere(),
-                    this.exact
-            };
-            this.verif.put(i, anArray);
         }
     }
 
@@ -139,12 +131,20 @@ public class Mot {
         this.lettres = lettres;
     }
 
-    public HashMap getVerif() {
+    public HashMap<Integer, String> getVerif() {
         return this.verif;
     }
 
-    public void setVerif(HashMap verif) {
-        this.verif = verif;
+    public String[] getCaracs() {
+        return caracs;
+    }
+
+    public void setCaracs(String[] caracs) {
+        this.caracs = caracs;
+    }
+
+    public static void setVerif(HashMap<Integer, String> verif) {
+        Mot.verif = verif;
     }
 
     public boolean isFini() {

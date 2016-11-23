@@ -20,8 +20,8 @@
     <string name="endtitle">Partie terminée !</string>
     <string name="title_activity_motus">MomoMotus</string>
     <string name="mot">Tapez votre mot</string>
-    <string name="counter">0/x</string>
-    <string name="blank">\u00A0</string>
+    <string name="counter" translatable="false">0/x</string>
+    <string name="blank" translatable="false">\u00A0</string>
     <string name="the_word">Le mot :&#160;</string>
     <string name="fallait_trouver">Il fallait trouver le mot :&#160;</string>
     <string name="existe_pas">&#160;n\'existe pas. Il fallait trouver :&#160;</string>
@@ -30,8 +30,8 @@
     <string name="x_coup">&#160;trouvé en&#160;</string>
     <string name="coups">&#160;coups</string>
     <string name="nontrouve">&#160;non trouvé.</string>
-    <string name="interstitial">ca-app-pub-2669557761715669/7770214839</string>
-    <string name="banner_bottom">ca-app-pub-2669557761715669/4459614036</string>
+    <string name="interstitial" translatable="false">ca-app-pub-2669557761715669/7770214839</string>
+    <string name="banner_bottom" translatable="false">ca-app-pub-2669557761715669/4459614036</string>
     <string name="ok">ok</string>
     <string name="close">Fermer</string>
     <string name="need_help">Besoin d\'aide ?</string>
@@ -44,17 +44,18 @@
     <string name="fb_share_title">J\'ai joué à Momomotus !</string>
     <string name="fb_ContentDesc">Aujourd\'hui j\'ai joué à Momomotus !</string>
     <string name="fb_ContentDesc2">J\'ai trouvé les mots :&#160;</string>
-    <string name="facebook_app_id">914409908597657</string>
-    <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
+    <string name="facebook_app_id" translatable="false">914409908597657</string>
+    <string name="store_url" translatable="false">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
     <string name="app_icon_url">http://paocorp.com/res/images/ico/ic_launcher_fr.png</string>
     <string name="credits">Application développée par : paocorp.com</string>
     <string name="open">Ouvrir</string>
     <string name="new_game">Nouvelle partie</string>
     <string name="rate_app">Noter cette application</string>
-    <string name="app_url">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
+    <string name="app_url" translatable="false">https://play.google.com/store/apps/details?id=com.paocorp.momomotus</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Paramètres</string>
+    <string name="getDef">http://www.larousse.fr/dictionnaires/francais/%1$s</string>
 </resources>

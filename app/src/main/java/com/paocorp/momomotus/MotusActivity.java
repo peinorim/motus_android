@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +33,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
@@ -70,6 +73,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
     Button startGame;
     ProgressDialog dialog;
     PackageInfo pInfo;
+    String sMot;
 
     String TITLES[] = {"Home"};
     int ICONS[] = {R.drawable.ic_action_content_clear};
@@ -130,7 +134,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         Integer rang = partie.getCurrent();
 
         try {
-            String sMot = stripAccents(inputMot.getText().toString().toLowerCase());
+            sMot = stripAccents(inputMot.getText().toString().toLowerCase());
             if (sMot.length() == partie.getNb()) {
                 boolean existe = existe(sMot);
                 Mot mot = partie.verifMot(rang, sMot, existe);
@@ -150,7 +154,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
-                        map.clear();
+                        partie.getMot(partie.getCurrent()).saveVerif.clear();
                         loadToast(this.getResources().getString(R.string.the_word) + partie.getMot(partie.getCurrent() - 1).getMot() + this.getResources().getString(R.string.trouve), true);
 
                     } else if (!mot.isTrouve() && mot.isFini()) {
@@ -166,7 +170,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
-                        map.clear();
+                        partie.getMot(partie.getCurrent()).saveVerif.clear();
 
                         if (existe) {
                             loadToast(this.getResources().getString(R.string.fallait_trouver) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
@@ -174,7 +178,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                             loadToast(this.getResources().getString(R.string.the_word) + sMot + this.getResources().getString(R.string.existe_pas) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
                         }
                     } else {
-                        parseRes(partie.getMot(partie.getCurrent()).getVerif());
+                        parseRes(partie.getMot(partie.getCurrent()));
                     }
 
                     inputMot = (EditText) findViewById(R.id.edit_message);
@@ -188,14 +192,16 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                     loadEnding(partie);
                 }
             }
-            loadBanner();
+            if (isNetworkAvailable()) {
+                loadBanner();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void loadToolbarAndDrawer(Integer layoutId){
+    private void loadToolbarAndDrawer(Integer layoutId) {
         RelativeLayout main_content = (RelativeLayout) findViewById(R.id.content_main_include);
         View child = getLayoutInflater().inflate(layoutId, null);
         main_content.removeAllViews();
@@ -217,9 +223,8 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
     }
 
     public void backHome(View v) {
-        finish();
-        System.exit(0);
         this.startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     public void shareFB(View v) {
@@ -237,6 +242,22 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
             shareDialog.show(linkContent);
         }
+    }
+
+    public void goDef(View v) {
+        Intent defIntent = null;
+        if (v.getId() == R.id.btnmot1) {
+            defIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getResources().getString(R.string.getDef, partie.getMot(1).getMot())));
+        } else if (v.getId() == R.id.btnmot2) {
+            defIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getResources().getString(R.string.getDef, partie.getMot(2).getMot())));
+        } else if (v.getId() == R.id.btnmot3) {
+            defIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getResources().getString(R.string.getDef, partie.getMot(3).getMot())));
+        } else if (v.getId() == R.id.btnmot4) {
+            defIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getResources().getString(R.string.getDef, partie.getMot(4).getMot())));
+        } else if (v.getId() == R.id.btnmot5) {
+            defIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getResources().getString(R.string.getDef, partie.getMot(5).getMot())));
+        }
+        startActivity(defIntent);
     }
 
     @Override
@@ -386,50 +407,41 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    private void parseRes(HashMap verif) {
+    private void parseRes(Mot mot) {
 
         int prev = partie.getLigne() - 1;
         int next = partie.getLigne();
+        HashMap<Integer, String> verif = mot.getVerif();
 
-        for (int i = 1; i < verif.size(); i++) {
-            String[] arr = (String[]) verif.get(i);
-            for (int j = 0; j < arr.length; j++) {
+        for (int i = 1; i <= verif.size(); i++) {
+            String couleur = verif.get(i);
 
-                String lprev = "l" + prev + "c" + i;
-                int resID = getResources().getIdentifier(lprev, "id", getPackageName());
+            String lprev = "l" + prev + "c" + i;
+            int resID = getResources().getIdentifier(lprev, "id", getPackageName());
 
-                String colorstr = "square_" + arr[1];
-                int colorID = getResources().getIdentifier(colorstr, "drawable", getPackageName());
+            String colorstr = "square_" + couleur;
+            int colorID = getResources().getIdentifier(colorstr, "drawable", getPackageName());
 
-                TextView tview = ((TextView) findViewById(resID));
-                tview.setText(arr[0].toUpperCase());
-                tview.setBackgroundResource(colorID);
-                if (arr[1] == "red") {
-                    if (map.size() < 1) {
-                        map.put(0, "");
-                    }
-                    map.put(i, arr[0].toUpperCase());
-                }
-            }
+            TextView tview = ((TextView) findViewById(resID));
+            tview.setText(Character.toString(sMot.charAt(i-1)).toUpperCase());
+            tview.setBackgroundResource(colorID);
         }
-        String[] arr = (String[]) verif.get(1);
-        if (arr[1] != "red") {
+        String coul = verif.get(1);
+        if (coul != "red") {
             String lnext = "l" + next + "c" + 1;
             int resID = getResources().getIdentifier(lnext, "id", getPackageName());
             TextView tview = ((TextView) findViewById(resID));
 
-            tview.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
+            tview.setText(Character.toString(mot.getMot().charAt(0)).toUpperCase());
             tview.setBackgroundResource(R.drawable.square_red);
         }
-        if (map.size() > 1) {
-            for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                Integer key = entry.getKey();
-                if (key != 0) {
-                    String value = entry.getValue();
+        if (mot.saveVerif.size() > 1) {
+            for (int key = 0; key <= verif.size(); key++) {
+                if (mot.saveVerif.get(key) != null && mot.saveVerif.get(key).equals("red")) {
                     String lnext = "l" + next + "c" + key;
                     int resID = getResources().getIdentifier(lnext, "id", getPackageName());
                     TextView tview = ((TextView) findViewById(resID));
-                    tview.setText(value);
+                    tview.setText(Character.toString(mot.getMot().charAt(key-1)).toUpperCase());
                     tview.setBackgroundResource(R.drawable.square_red);
                 }
             }
@@ -440,10 +452,14 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
     private void fillPartieMots() throws Exception {
 
         InputSource inputSrc;
+        EditText editMessage = (EditText) findViewById(R.id.edit_message);
         loc = Locale.getDefault().getLanguage();
         String locCode = "_en";
         if (loc.equals("fr")) {
             locCode = "_fr";
+            editMessage.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.flag_fr, 0);
+        } else {
+            editMessage.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.flag_en, 0);
         }
 
         String xmlraw = "xml_" + partie.getNb() + locCode;
@@ -611,5 +627,11 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         finish();
         startActivity(intent);
         return true;
+    }
+
+    protected boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
