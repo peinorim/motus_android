@@ -1,6 +1,7 @@
 MomoMotus - FindTheWords
 =====
 
+* v2.9 : New words reference list
 * v2.8 : Rework word comparison algorithm
 * v2.7 : Get words definition on ending screen
 * v2.6 : Fix bug affecting blank squares

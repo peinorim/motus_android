@@ -18,8 +18,8 @@
     <string name="title_activity_motus">Find The Words</string>
     <string name="the_word">The word :&#160;</string>
     <string name="trouve">&#160;is found !</string>
-    <string name="fallait_trouver">You had to find the word : </string>
-    <string name="existe_pas">&#160;does not exist. You had to find the word :&#160;</string>
+    <string name="fallait_trouver">You had to find the word :&#160;</string>
+    <string name="existe_pas">&#160;does not exist.</string>
     <string name="premier_coup">&#160;found on the first try !</string>
     <string name="x_coup">&#160;found in </string>
     <string name="coups">&#160;moves.</string>

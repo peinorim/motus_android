@@ -24,7 +24,7 @@
     <string name="blank" translatable="false">\u00A0</string>
     <string name="the_word">Le mot :&#160;</string>
     <string name="fallait_trouver">Il fallait trouver le mot :&#160;</string>
-    <string name="existe_pas">&#160;n\'existe pas. Il fallait trouver :&#160;</string>
+    <string name="existe_pas">&#160;n\'existe pas.</string>
     <string name="trouve">&#160;est trouvé !</string>
     <string name="premier_coup">&#160;trouvé du premier coup !</string>
     <string name="x_coup">&#160;trouvé en&#160;</string>

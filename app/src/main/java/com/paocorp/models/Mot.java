@@ -115,6 +115,13 @@ public class Mot {
         return count;
     }
 
+    public void fillExiste() {
+        this.trouve = false;
+        for (int i = 0; i < this.getMot().split("").length; i++) {
+            verif.put(i, nontrouve);
+        }
+    }
+
     public String getMot() {
         return this.mot;
     }

@@ -174,8 +174,6 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
                         if (existe) {
                             loadToast(this.getResources().getString(R.string.fallait_trouver) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
-                        } else {
-                            loadToast(this.getResources().getString(R.string.the_word) + sMot + this.getResources().getString(R.string.existe_pas) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
                         }
                     } else {
                         parseRes(partie.getMot(partie.getCurrent()));
@@ -376,7 +374,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
     }
@@ -413,35 +411,59 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         int next = partie.getLigne();
         HashMap<Integer, String> verif = mot.getVerif();
 
-        for (int i = 1; i <= verif.size(); i++) {
-            String couleur = verif.get(i);
+        if (!mot.isExiste()) {
+            for (int i = 1; i <= verif.size(); i++) {
+                String lprev = "l" + prev + "c" + i;
+                int resID = getResources().getIdentifier(lprev, "id", getPackageName());
 
-            String lprev = "l" + prev + "c" + i;
-            int resID = getResources().getIdentifier(lprev, "id", getPackageName());
+                String colorstr = "square_blue";
+                int colorID = getResources().getIdentifier(colorstr, "drawable", getPackageName());
 
-            String colorstr = "square_" + couleur;
-            int colorID = getResources().getIdentifier(colorstr, "drawable", getPackageName());
-
-            TextView tview = ((TextView) findViewById(resID));
-            tview.setText(Character.toString(sMot.charAt(i-1)).toUpperCase());
-            tview.setBackgroundResource(colorID);
-        }
-        String coul = verif.get(1);
-        if (coul != "red") {
+                TextView tview = ((TextView) findViewById(resID));
+                tview.setText("");
+                tview.setBackgroundResource(colorID);
+            }
             String lnext = "l" + next + "c" + 1;
             int resID = getResources().getIdentifier(lnext, "id", getPackageName());
             TextView tview = ((TextView) findViewById(resID));
 
             tview.setText(Character.toString(mot.getMot().charAt(0)).toUpperCase());
             tview.setBackgroundResource(R.drawable.square_red);
+
+            loadToast(this.getResources().getString(R.string.the_word) + sMot + this.getResources().getString(R.string.existe_pas), false);
+        } else {
+
+            for (int i = 1; i <= verif.size(); i++) {
+                String couleur = verif.get(i);
+
+                String lprev = "l" + prev + "c" + i;
+                int resID = getResources().getIdentifier(lprev, "id", getPackageName());
+
+                String colorstr = "square_" + couleur;
+                int colorID = getResources().getIdentifier(colorstr, "drawable", getPackageName());
+
+                TextView tview = ((TextView) findViewById(resID));
+                tview.setText(Character.toString(sMot.charAt(i - 1)).toUpperCase());
+                tview.setBackgroundResource(colorID);
+            }
+            String coul = verif.get(1);
+            if (coul != "red") {
+                String lnext = "l" + next + "c" + 1;
+                int resID = getResources().getIdentifier(lnext, "id", getPackageName());
+                TextView tview = ((TextView) findViewById(resID));
+
+                tview.setText(Character.toString(mot.getMot().charAt(0)).toUpperCase());
+                tview.setBackgroundResource(R.drawable.square_red);
+            }
         }
+
         if (mot.saveVerif.size() > 1) {
             for (int key = 0; key <= verif.size(); key++) {
                 if (mot.saveVerif.get(key) != null && mot.saveVerif.get(key).equals("red")) {
                     String lnext = "l" + next + "c" + key;
                     int resID = getResources().getIdentifier(lnext, "id", getPackageName());
                     TextView tview = ((TextView) findViewById(resID));
-                    tview.setText(Character.toString(mot.getMot().charAt(key-1)).toUpperCase());
+                    tview.setText(Character.toString(mot.getMot().charAt(key - 1)).toUpperCase());
                     tview.setBackgroundResource(R.drawable.square_red);
                 }
             }
@@ -497,7 +519,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
             locCode = "_fr";
         }
 
-        String xmlraw = "xml_" + partie.getNb() + locCode;
+        String xmlraw = "existe_" + partie.getNb() + locCode;
 
         Resources res = this.getResources();
         int rawId = res.getIdentifier(xmlraw, "raw", this.getPackageName());
@@ -512,11 +534,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         NodeList nodes = (NodeList) xpath.evaluate(expression, inputSrc, XPathConstants.NODESET);
 
         // if node found
-        if (nodes != null && nodes.getLength() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return nodes != null && nodes.getLength() > 0;
     }
 
     public static String stripAccents(String s) {

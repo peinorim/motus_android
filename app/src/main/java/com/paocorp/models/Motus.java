@@ -20,8 +20,8 @@ public class Motus {
         this.essais = new ArrayList<Integer>();
     }
 
-    private boolean finEssais(Mot mot){
-        if(mot.getLigne() == this.nblignes || mot.isTrouve() || !mot.isExiste()){
+    private boolean finEssais(Mot mot) {
+        if (mot.getLigne() == this.nblignes || mot.isTrouve()) {
             this.ligne = 1;
             mot.setFini(true);
             return true;
@@ -35,24 +35,23 @@ public class Motus {
     public Mot verifMot(Integer rang, String caracs, boolean existe) throws Exception {
         Mot mot = this.getMot(rang);
         mot.setExiste(existe);
-
         mot.compare(new Mot(caracs));
 
         boolean fin = this.finEssais(mot);
 
-        if(fin && !this.isComplete()){
+        if (fin && !this.isComplete()) {
             rang++;
             this.setCurrent(rang);
             //mot.soluce();
-        } else if(this.isComplete()){
+        } else if (this.isComplete()) {
             //mot.soluce();
         }
 
         return mot;
     }
 
-    public boolean isComplete(){
-        return this.current == this.nbmots +1;
+    public boolean isComplete() {
+        return this.current == this.nbmots + 1;
     }
 
     private void setNb(int nb) {
@@ -91,8 +90,8 @@ public class Motus {
         return this.mots;
     }
 
-    public Mot getMot(int rang){
-        return this.getMots().get(rang-1);
+    public Mot getMot(int rang) {
+        return this.getMots().get(rang - 1);
     }
 
     public ArrayList getEssais() {
