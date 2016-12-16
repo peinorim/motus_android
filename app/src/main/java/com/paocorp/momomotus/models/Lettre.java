@@ -1,4 +1,4 @@
-package com.paocorp.models;
+package com.paocorp.momomotus.models;
 
 public class Lettre {
 

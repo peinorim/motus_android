@@ -1,11 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MotusActivity">
+    tools:context=".activities.MainActivity"
+    tools:showIn="@layout/app_bar_main">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -27,141 +27,142 @@
 
         <LinearLayout
             android:id="@+id/cmot1"
-            android:layout_below="@+id/endtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/mot1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/ending_padding"
-            android:paddingTop="@dimen/ending_padding"
-            android:text="@string/blank"
-            android:textSize="@dimen/mainsubtitle" />
+            android:layout_below="@+id/endtitle">
 
-        <ImageButton
-            android:id="@+id/btnmot1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginStart="10sp"
-            android:background="@color/white"
-            android:onClick="goDef"
-            android:padding="10dp"
-            android:src="@drawable/ic_help_black_24dp"
-            android:tint="@color/red_darken2" />
+            <TextView
+                android:id="@+id/mot1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/ending_padding"
+                android:paddingTop="@dimen/ending_padding"
+                android:text="@string/blank"
+                android:textSize="@dimen/mainsubtitle" />
+
+            <ImageButton
+                android:id="@+id/btnmot1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:background="@color/white"
+                android:onClick="goDef"
+                android:padding="10dp"
+                android:src="@drawable/ic_help_black_24dp"
+                android:tint="@color/red_darken2" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/cmot2"
-            android:layout_below="@+id/cmot1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/mot2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/ending_padding"
-            android:paddingTop="@dimen/ending_padding"
-            android:text="@string/blank"
-            android:textSize="@dimen/mainsubtitle" />
+            android:layout_below="@+id/cmot1">
 
-        <ImageButton
-            android:id="@+id/btnmot2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginStart="10sp"
-            android:background="@color/white"
-            android:onClick="goDef"
-            android:padding="10dp"
-            android:src="@drawable/ic_help_black_24dp"
-            android:tint="@color/red_darken2" />
+            <TextView
+                android:id="@+id/mot2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/ending_padding"
+                android:paddingTop="@dimen/ending_padding"
+                android:text="@string/blank"
+                android:textSize="@dimen/mainsubtitle" />
+
+            <ImageButton
+                android:id="@+id/btnmot2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:background="@color/white"
+                android:onClick="goDef"
+                android:padding="10dp"
+                android:src="@drawable/ic_help_black_24dp"
+                android:tint="@color/red_darken2" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/cmot3"
-            android:layout_below="@+id/cmot2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/mot3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/ending_padding"
-            android:paddingTop="@dimen/ending_padding"
-            android:text="@string/blank"
-            android:textSize="@dimen/mainsubtitle" />
+            android:layout_below="@+id/cmot2">
 
-        <ImageButton
-            android:id="@+id/btnmot3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginStart="10sp"
-            android:background="@color/white"
-            android:onClick="goDef"
-            android:padding="10dp"
-            android:src="@drawable/ic_help_black_24dp"
-            android:tint="@color/red_darken2" />
+            <TextView
+                android:id="@+id/mot3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/ending_padding"
+                android:paddingTop="@dimen/ending_padding"
+                android:text="@string/blank"
+                android:textSize="@dimen/mainsubtitle" />
+
+            <ImageButton
+                android:id="@+id/btnmot3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:background="@color/white"
+                android:onClick="goDef"
+                android:padding="10dp"
+                android:src="@drawable/ic_help_black_24dp"
+                android:tint="@color/red_darken2" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/cmot4"
-            android:layout_below="@+id/cmot3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/mot4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/ending_padding"
-            android:paddingTop="@dimen/ending_padding"
-            android:text="@string/blank"
-            android:textSize="@dimen/mainsubtitle" />
+            android:layout_below="@+id/cmot3">
 
-        <ImageButton
-            android:id="@+id/btnmot4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginStart="10sp"
-            android:background="@color/white"
-            android:onClick="goDef"
-            android:padding="10dp"
-            android:src="@drawable/ic_help_black_24dp"
-            android:tint="@color/red_darken2" />
+            <TextView
+                android:id="@+id/mot4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/ending_padding"
+                android:paddingTop="@dimen/ending_padding"
+                android:text="@string/blank"
+                android:textSize="@dimen/mainsubtitle" />
+
+            <ImageButton
+                android:id="@+id/btnmot4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:background="@color/white"
+                android:onClick="goDef"
+                android:padding="10dp"
+                android:src="@drawable/ic_help_black_24dp"
+                android:tint="@color/red_darken2" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/cmot5"
-            android:layout_below="@+id/cmot4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/mot5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/ending_padding"
-            android:paddingTop="@dimen/ending_padding"
-            android:text="@string/blank"
-            android:textSize="@dimen/mainsubtitle" />
+            android:layout_below="@+id/cmot4">
 
-        <ImageButton
-            android:id="@+id/btnmot5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginStart="10sp"
-            android:background="@color/white"
-            android:onClick="goDef"
-            android:padding="10dp"
-            android:src="@drawable/ic_help_black_24dp"
-            android:tint="@color/red_darken2" />
+            <TextView
+                android:id="@+id/mot5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/ending_padding"
+                android:paddingTop="@dimen/ending_padding"
+                android:text="@string/blank"
+                android:textSize="@dimen/mainsubtitle" />
+
+            <ImageButton
+                android:id="@+id/btnmot5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginStart="10sp"
+                android:background="@color/white"
+                android:onClick="goDef"
+                android:padding="10dp"
+                android:src="@drawable/ic_help_black_24dp"
+                android:tint="@color/red_darken2" />
         </LinearLayout>
 
         <Button
@@ -183,4 +184,4 @@
             android:textSize="@dimen/btnsend" />
 
     </RelativeLayout>
-</RelativeLayout>
+</ScrollView>

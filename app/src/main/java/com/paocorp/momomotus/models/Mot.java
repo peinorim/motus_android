@@ -1,4 +1,4 @@
-package com.paocorp.models;
+package com.paocorp.momomotus.models;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ public class Mot {
     String[] caracs;
     public static HashMap<Integer, String> verif = new HashMap<Integer, String>();
     public static HashMap<Integer, String> saveVerif = new HashMap<Integer, String>();
-    String malplace = "yellow";
-    String exact = "red";
-    String nontrouve = "blue";
+    public static String malplace = "yellow";
+    public static String exact = "red";
+    public static String nontrouve = "blue";
 
     public Mot(String mot) {
         this.lettres = new ArrayList<Lettre>();

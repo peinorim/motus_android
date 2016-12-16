@@ -1,4 +1,4 @@
-package com.paocorp.models;
+package com.paocorp.momomotus.models;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ public class Motus {
     int current;
     int nbmots = 5;
     int nblignes = 6;
+    boolean isHard;
 
     public Motus(int nb) {
         this.setNb(nb);
@@ -18,6 +19,7 @@ public class Motus {
         this.setCurrent(1);
         this.mots = new ArrayList<Mot>();
         this.essais = new ArrayList<Integer>();
+        this.isHard = false;
     }
 
     private boolean finEssais(Mot mot) {
@@ -104,5 +106,13 @@ public class Motus {
 
     public int getLigne() {
         return this.ligne;
+    }
+
+    public boolean isHard() {
+        return isHard;
+    }
+
+    public void setHard(boolean hard) {
+        isHard = hard;
     }
 }

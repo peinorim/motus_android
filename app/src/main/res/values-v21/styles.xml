@@ -20,4 +20,13 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <item name="android:textColorPrimary">@color/white</item>
     </style>
+
+    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:navigationBarColor">@color/red_darken4</item>
+    </style>
 </resources>

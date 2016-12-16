@@ -1,4 +1,4 @@
-package com.paocorp.momomotus;
+package com.paocorp.momomotus.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -25,55 +25,18 @@ import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.paocorp.momomotus.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     RadioGroup optGame;
+    RadioGroup diff;
     TextView mainsubtitle;
     Button startGame;
     PackageInfo pInfo;
     private InterstitialAd mInterstitialAd;
     CallbackManager callbackManager;
-    String TITLES[] = {"Home"};
-    int ICONS[] = {R.drawable.ic_action_content_clear};
     ShareDialog shareDialog;
-
-    //Similarly we Create a String Resource for the name and email in the header view
-    //And we also create a int resource for profile picture in the header view
-
-    String APPINFO;
-    int PROFILE = R.drawable.com_facebook_profile_picture_blank_portrait;
-
-    public void startGame(View v) {
-        Intent intent = new Intent(MainActivity.this, MotusActivity.class);
-        Bundle b = new Bundle();
-        if (optGame.getCheckedRadioButtonId() == R.id.radio_six) {
-            b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_seven) {
-            b.putInt("nb", 7);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_eight) {
-            b.putInt("nb", 8);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_nine) {
-            b.putInt("nb", 9);
-            intent.putExtras(b);
-            startActivity(intent);
-            finish();
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_ten) {
-            b.putInt("nb", 10);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else {
-            b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,10 +81,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startGame.setEnabled(true);
         mainsubtitle = (TextView) findViewById(R.id.mainsubtitle);
         optGame = (RadioGroup) findViewById(R.id.optGame);
+        diff = (RadioGroup) findViewById(R.id.diff);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
+    }
+
+    public void startGame(View v) {
+        Intent intent = new Intent(MainActivity.this, MotusActivity.class);
+        Bundle b = new Bundle();
+        if (diff != null && diff.getCheckedRadioButtonId() == R.id.diffHard) {
+            b.putBoolean("diff", true);
+        } else {
+            b.putBoolean("diff", false);
+        }
+        if (optGame.getCheckedRadioButtonId() == R.id.radio_six) {
+            b.putInt("nb", 6);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_seven) {
+            b.putInt("nb", 7);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_eight) {
+            b.putInt("nb", 8);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_nine) {
+            b.putInt("nb", 9);
+            intent.putExtras(b);
+            startActivity(intent);
+            finish();
+        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_ten) {
+            b.putInt("nb", 10);
+            intent.putExtras(b);
+            startActivity(intent);
+        } else {
+            b.putInt("nb", 6);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
     }
 
     @Override

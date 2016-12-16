@@ -50,4 +50,6 @@
     <string name="new_ten">New 10 letter game</string>
     <string name="rate_app">Rate this app</string>
     <string name="getDef">https://google.com/?q=%1$s</string>
+    <string name="diffEasy">Easy</string>
+    <string name="diffHard">Hard</string>
 </resources>
