@@ -139,6 +139,9 @@ public class BillingActivity extends AppCompatActivity {
                 } else {
                     RelativeLayout noAds = (RelativeLayout) BillingActivity.this.findViewById(R.id.noAds);
                     noAds.setVisibility(View.GONE);
+
+                    RelativeLayout thx = (RelativeLayout) BillingActivity.this.findViewById(R.id.thx);
+                    thx.setVisibility(View.VISIBLE);
                 }
             }
         }

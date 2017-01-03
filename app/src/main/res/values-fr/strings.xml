@@ -56,4 +56,5 @@
     <string name="noMoreAds">No more ads forever</string>
     <string name="purchaseNotDone">Purchase not done</string>
     <string name="purchaseError">Error while making the payment</string>
+    <string name="purchaseThx">Merci pour votre achat</string>
 </resources>

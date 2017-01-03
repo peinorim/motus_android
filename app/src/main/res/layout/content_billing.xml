@@ -39,4 +39,23 @@
             android:textColor="@color/white" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/thx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/noAds"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/thxTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:text="@string/purchaseThx"
+            android:textColor="@color/black"
+            android:textSize="@dimen/mainsubtitle"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
