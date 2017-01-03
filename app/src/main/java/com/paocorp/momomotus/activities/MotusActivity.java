@@ -1,25 +1,22 @@
 package com.paocorp.momomotus.activities;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,15 +37,22 @@ import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.paocorp.momomotus.R;
+import com.paocorp.momomotus.models.Global;
 import com.paocorp.momomotus.models.Mot;
 import com.paocorp.momomotus.models.Motus;
+import com.paocorp.momomotus.util.IabHelper;
+import com.paocorp.momomotus.util.IabResult;
+import com.paocorp.momomotus.util.Inventory;
+import com.paocorp.momomotus.util.Purchase;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -57,7 +60,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-public class MotusActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MotusActivity extends ParentActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     EditText inputMot;
     Button sendMot;
@@ -68,22 +71,27 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     String fbMots;
-    RadioGroup optGame;
-    Button startGame;
-    ProgressDialog dialog;
     PackageInfo pInfo;
     String sMot;
+    Toolbar toolbar;
 
-    Toolbar toolbar;                              // Declaring the Toolbar Object
+    IabHelper mHelper;
+    boolean mIsRemoveAdds = false;
+    String SKU_NOAD = Global.SKU_NOAD;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int nb = 6;
+        boolean diff = false;
 
         Bundle b = getIntent().getExtras();
-        int nb = b.getInt("nb");
-        boolean diff = b.getBoolean("diff");
+        if (b != null) {
+            nb = b.getInt("nb");
+            diff = b.getBoolean("diff");
+        }
         partie = new Motus(nb);
         partie.setHard(diff);
 
@@ -106,7 +114,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
@@ -133,7 +141,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
         l1c1.setText(String.valueOf(partie.getMots().get(0).getMot().toUpperCase().charAt(0)));
         l1c1.setBackgroundResource(R.drawable.square_red);
-        counter.setText("0/" + partie.getNb());
+        counter.setText(this.getResources().getString(R.string.counter, 0, partie.getNb()));
         inputMot.addTextChangedListener(mTextEditorWatcher);
 
         for (int i = 2; i <= partie.getNb(); i++) {
@@ -160,52 +168,33 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        loadBanner();
+        String base64EncodedPublicKey = this.getResources().getString(R.string.billingKey);
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            @Override
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    // Oh no, there was a problem.
+                    Log.d("BILLING-ISSUE", "Problem setting up In-app Billing: " + result);
+                    return;
+                }
+                if (result.isSuccess()) {
+                    try {
+                        List additionalSkuList = new ArrayList<>();
+                        additionalSkuList.add(SKU_NOAD);
+                        mHelper.queryInventoryAsync(true, additionalSkuList, additionalSkuList, mGotInventoryListener);
+                    } catch (IabHelper.IabAsyncInProgressException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
 
-    }
-
-    public void startGame(View v) {
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage(this.getResources().getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        startGame.setEnabled(false);
-        startGame.setTextColor(this.getResources().getColor(R.color.white));
-        startGame.setBackgroundResource(R.drawable.button_disabled);
-        Intent intent = new Intent(MotusActivity.this, MotusActivity.class);
-        Bundle b = new Bundle();
-        if (optGame.getCheckedRadioButtonId() == R.id.radio_six) {
-            b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_seven) {
-            b.putInt("nb", 7);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_eight) {
-            b.putInt("nb", 8);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_nine) {
-            b.putInt("nb", 9);
-            intent.putExtras(b);
-            startActivity(intent);
-            finish();
-        } else if (optGame.getCheckedRadioButtonId() == R.id.radio_ten) {
-            b.putInt("nb", 10);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else {
-            b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
-        }
     }
 
     public void checkMot(View v) {
@@ -235,7 +224,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
                         partie.getMot(partie.getCurrent()).saveVerif.clear();
-                        loadToast(this.getResources().getString(R.string.the_word) + partie.getMot(partie.getCurrent() - 1).getMot() + this.getResources().getString(R.string.trouve), true);
+                        loadToast(this.getResources().getString(R.string.trouve, partie.getMot(partie.getCurrent() - 1).getMot()), true);
 
                     } else if (!mot.isTrouve() && mot.isFini()) {
 
@@ -251,7 +240,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                         l1c1.setText(String.valueOf(partie.getMot(partie.getCurrent()).getMot().toUpperCase().charAt(0)));
                         l1c1.setBackgroundResource(R.drawable.square_red);
                         partie.getMot(partie.getCurrent()).saveVerif.clear();
-                        loadToast(this.getResources().getString(R.string.fallait_trouver) + partie.getMot(partie.getCurrent() - 1).getMot(), false);
+                        loadToast(this.getResources().getString(R.string.fallait_trouver, partie.getMot(partie.getCurrent() - 1).getMot()), false);
                     } else {
                         parseRes(partie.getMot(partie.getCurrent()));
                     }
@@ -260,15 +249,12 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                     inputMot.getText().clear();
                     sendMot.setEnabled(true);
                     counter = (TextView) findViewById(R.id.counter);
-                    counter.setText("0/" + String.valueOf(partie.getNb()));
+                    counter.setText(this.getResources().getString(R.string.counter, 0, partie.getNb()));
                     inputMot.addTextChangedListener(mTextEditorWatcher);
                 } else {
                     loadToolbarAndDrawer(R.layout.ending);
                     loadEnding(partie);
                 }
-            }
-            if (isNetworkAvailable()) {
-                loadBanner();
             }
 
         } catch (Exception e) {
@@ -330,12 +316,6 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         startActivity(defIntent);
     }
 
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -344,7 +324,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             //This sets a textview to the current length
-            counter.setText(String.valueOf(s.length()) + "/" + String.valueOf(partie.getNb()));
+            counter.setText(getResources().getString(R.string.counter, s.length(), partie.getNb()));
         }
 
         public void afterTextChanged(Editable s) {
@@ -383,14 +363,14 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
                 }
                 fbMots += partie.getMot(i).getMot();
                 if (partie.getMot(i).getLigne() == 1) {
-                    tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.premier_coup));
+                    tview.setText(this.getResources().getString(R.string.premier_coup, partie.getMot(i).getMot()));
                 } else {
-                    tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.x_coup) + partie.getMot(i).getLigne() + this.getResources().getString(R.string.coups));
+                    tview.setText(this.getResources().getString(R.string.x_coup, partie.getMot(i).getMot(), partie.getMot(i).getLigne()));
                 }
                 tview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_action_done, 0, 0, 0);
                 tview.setTextColor(this.getResources().getColor(R.color.green));
             } else {
-                tview.setText(partie.getMot(i).getMot() + this.getResources().getString(R.string.nontrouve));
+                tview.setText(this.getResources().getString(R.string.nontrouve, partie.getMot(i).getMot()));
                 tview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_content_clear, 0, 0, 0);
                 tview.setTextColor(this.getResources().getColor(R.color.red_darken1));
             }
@@ -422,7 +402,7 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
             tview.setText(Character.toString(mot.getMot().charAt(0)).toUpperCase());
             tview.setBackgroundResource(R.drawable.square_red);
 
-            loadToast(this.getResources().getString(R.string.the_word) + sMot + this.getResources().getString(R.string.existe_pas), false);
+            loadToast(this.getResources().getString(R.string.existe_pas, sMot), false);
         } else {
 
             for (int i = 1; i <= verif.size(); i++) {
@@ -608,48 +588,48 @@ public class MotusActivity extends AppCompatActivity implements NavigationView.O
         alert.show();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        Intent intent = new Intent(this, MotusActivity.class);
-        Bundle b = new Bundle();
-
-        int id = item.getItemId();
-        if (id == R.id.nav_share_fb) {
-            if (ShareDialog.canShow(ShareLinkContent.class)) {
-                String fbText = getResources().getString(R.string.fb_ContentDesc);
-                ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(getResources().getString(R.string.store_url)))
-                        .setContentTitle(getResources().getString(R.string.app_name))
-                        .setContentDescription(fbText)
-                        .setImageUrl(Uri.parse(getResources().getString(R.string.app_icon_url)))
-                        .build();
-
-                shareDialog.show(linkContent);
+    protected IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        @Override
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            if (result.isFailure()) {
+                // handle error here
+                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+            } else {
+                mIsRemoveAdds = inventory.hasPurchase(SKU_NOAD);
+                Purchase purchase = inventory.getPurchase(SKU_NOAD);
+                if (!mIsRemoveAdds || (purchase != null && purchase.getPurchaseState() != 0)) {
+                    Global.isNoAdsPurchased = false;
+                    loadBanner();
+                } else {
+                    Global.isNoAdsPurchased = true;
+                    Menu menu = navigationView.getMenu();
+                    MenuItem nav_billing = menu.findItem(R.id.nav_billing);
+                    nav_billing.setVisible(false);
+                }
             }
-            return true;
-        } else if (id == R.id.new_6) {
-            b.putInt("nb", 6);
-        } else if (id == R.id.new_7) {
-            b.putInt("nb", 7);
-        } else if (id == R.id.new_8) {
-            b.putInt("nb", 8);
-        } else if (id == R.id.new_9) {
-            b.putInt("nb", 9);
-        } else if (id == R.id.new_10) {
-            b.putInt("nb", 10);
-        } else if (id == R.id.rate_app) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_url)));
         }
-        intent.putExtras(b);
-        finish();
-        startActivity(intent);
-        return true;
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        queryPurchasedItems();
     }
 
-    protected boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        queryPurchasedItems();
+    }
+
+    protected void queryPurchasedItems() {
+        //check if user has bought "remove adds"
+        if (mHelper.isSetupDone() && !mHelper.isAsyncInProgress()) {
+            try {
+                mHelper.queryInventoryAsync(mGotInventoryListener);
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

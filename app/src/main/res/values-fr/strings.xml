@@ -20,21 +20,17 @@
     <string name="endtitle">Partie terminée !</string>
     <string name="title_activity_motus">MomoMotus</string>
     <string name="mot">Tapez votre mot</string>
-    <string name="the_word">Le mot :&#160;</string>
-    <string name="fallait_trouver">Il fallait trouver le mot :&#160;</string>
-    <string name="existe_pas">&#160;n\'existe pas.</string>
-    <string name="trouve">&#160;est trouvé !</string>
-    <string name="premier_coup">&#160;trouvé du premier coup !</string>
-    <string name="x_coup">&#160;trouvé en&#160;</string>
-    <string name="coups">&#160;coups</string>
-    <string name="nontrouve">&#160;non trouvé.</string>
-    <string name="ok">ok</string>
+    <string name="fallait_trouver">Il fallait trouver le mot : %1$s</string>
+    <string name="existe_pas">Le mot " %1$s " n\'existe pas.</string>
+    <string name="trouve">Bravo ! Vous avez trouvé le mot : " %1$s " !</string>
+    <string name="premier_coup">Incroyable ! Vous avez trouvé " %1$s " du premier coup !</string>
+    <string name="x_coup">" %1$s " trouvé en %2$d coups</string>
+    <string name="nontrouve">" %1$s " non trouvé</string>
     <string name="close">Fermer</string>
     <string name="need_help">Besoin d\'aide ?</string>
     <string name="red_explanation">est une lettre bien placée.</string>
     <string name="yellow_explanation">est une lettre mal placée.</string>
     <string name="blue_explanation">est une lettre qui n\'est pas dans le mot.</string>
-    <string name="A">A</string>
     <string name="social_networks">Réseaux sociaux</string>
     <string name="fb_share">Partager sur Facebook</string>
     <string name="fb_share_title">J\'ai joué à Momomotus !</string>
@@ -53,4 +49,11 @@
     <string name="getDef">http://www.larousse.fr/dictionnaires/francais/%1$s</string>
     <string name="diffEasy">Normale</string>
     <string name="diffHard">Difficile</string>
+
+    <string name="purchase">Purchase</string>
+    <string name="endAds">Tired of ads ?</string>
+    <string name="purchaseNoAds">Make a one-time payment of %1$s</string>
+    <string name="noMoreAds">No more ads forever</string>
+    <string name="purchaseNotDone">Purchase not done</string>
+    <string name="purchaseError">Error while making the payment</string>
 </resources>

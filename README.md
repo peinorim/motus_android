@@ -1,6 +1,7 @@
 MomoMotus - FindTheWords
 =====
 
+* v2.11 : App purchase + various UI fixes and code refactor
 * v2.10 : Game difficulty
 * v2.9 : New words reference list
 * v2.8 : Rework word comparison algorithm

@@ -124,32 +124,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/optGame"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:layout_marginTop="0sp"
             android:layout_marginBottom="10sp"
+            android:layout_marginTop="0sp"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <RadioButton
-            android:id="@+id/diffEasy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:width="@dimen/radio_width"
-            android:buttonTint="@color/red"
-            android:checked="true"
-            android:text="@string/diffEasy"
-            android:textColor="@color/red"
-            android:textSize="@dimen/optGame" />
+            <RadioButton
+                android:id="@+id/diffEasy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/red_darken3"
+                android:checked="true"
+                android:text="@string/diffEasy"
+                android:textColor="@color/red_darken3"
+                android:textSize="@dimen/optGame" />
 
-        <RadioButton
-            android:id="@+id/diffHard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/red"
-            android:text="@string/diffHard"
-            android:textColor="@color/red_darken1"
-            android:textSize="@dimen/optGame" />
+            <RadioButton
+                android:id="@+id/diffHard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:buttonTint="@color/red_darken3"
+                android:text="@string/diffHard"
+                android:textColor="@color/red_darken3"
+                android:textSize="@dimen/optGame" />
         </RadioGroup>
 
         <Button

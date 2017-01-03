@@ -16,21 +16,17 @@
     <string name="six_letters">6 letter words</string>
     <string name="ten_letters">10 letter words</string>
     <string name="title_activity_motus">Find The Words</string>
-    <string name="the_word">The word :&#160;</string>
-    <string name="trouve">&#160;is found !</string>
-    <string name="fallait_trouver">You had to find the word :&#160;</string>
-    <string name="existe_pas">&#160;does not exist.</string>
-    <string name="premier_coup">&#160;found on the first try !</string>
-    <string name="x_coup">&#160;found in </string>
-    <string name="coups">&#160;moves.</string>
-    <string name="nontrouve">&#160;not found.</string>
-    <string name="ok">ok</string>
+    <string name="fallait_trouver">You had to find the word : " %1$s "</string>
+    <string name="existe_pas">The word : " %1$s " does not exist.</string>
+    <string name="trouve">Great ! You have found the word : " %1$s " !</string>
+    <string name="premier_coup">Amazing ! You have found " %1$s " on first shot !</string>
+    <string name="x_coup">" %1$s " found after %2$d tries</string>
+    <string name="nontrouve">" %1$s " not found</string>
     <string name="close">Close</string>
     <string name="need_help">Need help ?</string>
     <string name="blue_explanation">this letter is not in the word</string>
     <string name="red_explanation">letter well placed</string>
     <string name="yellow_explanation">letter misplaced</string>
-    <string name="A">A</string>
     <string name="fb_share">Share on Facebook</string>
     <string name="fb_share_title">I have played FindTheWords !</string>
     <string name="fb_ContentDesc">Today I played FindTheWords !</string>
@@ -52,4 +48,11 @@
     <string name="getDef">https://google.com/?q=%1$s</string>
     <string name="diffEasy">Easy</string>
     <string name="diffHard">Hard</string>
+
+    <string name="purchase">Purchase</string>
+    <string name="endAds">Tired of ads ?</string>
+    <string name="purchaseNoAds">Make a one-time payment of %1$s</string>
+    <string name="noMoreAds">No more ads forever</string>
+    <string name="purchaseNotDone">Purchase not done</string>
+    <string name="purchaseError">Error while making the payment</string>
 </resources>

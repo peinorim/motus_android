@@ -11,7 +11,6 @@ public class Mot {
     boolean trouve = false;
     boolean existe = true;
     boolean fini = false;
-    boolean recursif = false;
     int ligne = 1;
     String[] caracs;
     public static HashMap<Integer, String> verif = new HashMap<Integer, String>();

@@ -3,13 +3,12 @@ package com.paocorp.momomotus.activities;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,26 +16,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.paocorp.momomotus.R;
+import com.paocorp.momomotus.models.Global;
+import com.paocorp.momomotus.util.IabHelper;
+import com.paocorp.momomotus.util.IabResult;
+import com.paocorp.momomotus.util.Inventory;
+import com.paocorp.momomotus.util.Purchase;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends ParentActivity {
 
     RadioGroup optGame;
     RadioGroup diff;
     TextView mainsubtitle;
     Button startGame;
     PackageInfo pInfo;
-    private InterstitialAd mInterstitialAd;
     CallbackManager callbackManager;
-    ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
@@ -66,13 +68,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
-        requestNewInterstitial();
-        mInterstitialAd.setAdListener(new AdListener() {
+        String base64EncodedPublicKey = this.getResources().getString(R.string.billingKey);
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             @Override
-            public void onAdLoaded() {
-                showInterstitial();
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    // Oh no, there was a problem.
+                    Log.d("BILLING-ISSUE", "Problem setting up In-app Billing: " + result);
+                    return;
+                }
+                if (result.isSuccess()) {
+                    try {
+                        List additionalSkuList = new ArrayList<>();
+                        additionalSkuList.add(SKU_NOAD);
+                        mHelper.queryInventoryAsync(true, additionalSkuList, additionalSkuList, mGotInventoryListener);
+                    } catch (IabHelper.IabAsyncInProgressException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -98,104 +113,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (optGame.getCheckedRadioButtonId() == R.id.radio_six) {
             b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (optGame.getCheckedRadioButtonId() == R.id.radio_seven) {
             b.putInt("nb", 7);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (optGame.getCheckedRadioButtonId() == R.id.radio_eight) {
             b.putInt("nb", 8);
-            intent.putExtras(b);
-            startActivity(intent);
         } else if (optGame.getCheckedRadioButtonId() == R.id.radio_nine) {
             b.putInt("nb", 9);
-            intent.putExtras(b);
-            startActivity(intent);
-            finish();
         } else if (optGame.getCheckedRadioButtonId() == R.id.radio_ten) {
             b.putInt("nb", 10);
-            intent.putExtras(b);
-            startActivity(intent);
         } else {
             b.putInt("nb", 6);
-            intent.putExtras(b);
-            startActivity(intent);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        intent.putExtras(b);
+        startActivity(intent);
+        finish();
     }
 
     public boolean onRadioButtonClicked(View v) {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        Intent intent = new Intent(MainActivity.this, MotusActivity.class);
-        Bundle b = new Bundle();
-
-        int id = item.getItemId();
-        if (id == R.id.nav_share_fb) {
-            if (ShareDialog.canShow(ShareLinkContent.class)) {
-                String fbText = getResources().getString(R.string.fb_ContentDesc);
-                ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(getResources().getString(R.string.store_url)))
-                        .setContentTitle(getResources().getString(R.string.app_name))
-                        .setContentDescription(fbText)
-                        .setImageUrl(Uri.parse(getResources().getString(R.string.app_icon_url)))
-                        .build();
-
-                shareDialog.show(linkContent);
+    protected IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        @Override
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            if (result.isFailure()) {
+                // handle error here
+                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+            } else {
+                mIsRemoveAdds = inventory.hasPurchase(SKU_NOAD);
+                Purchase purchase = inventory.getPurchase(SKU_NOAD);
+                if (!mIsRemoveAdds || (purchase != null && purchase.getPurchaseState() != 0)) {
+                    Global.isNoAdsPurchased = false;
+                    launchInterstitial();
+                } else {
+                    Global.isNoAdsPurchased = true;
+                    Menu menu = navigationView.getMenu();
+                    MenuItem nav_billing = menu.findItem(R.id.nav_billing);
+                    nav_billing.setVisible(false);
+                }
             }
-            return true;
-        } else if (id == R.id.new_6) {
-            b.putInt("nb", 6);
-        } else if (id == R.id.new_7) {
-            b.putInt("nb", 7);
-        } else if (id == R.id.new_8) {
-            b.putInt("nb", 8);
-        } else if (id == R.id.new_9) {
-            b.putInt("nb", 9);
-        } else if (id == R.id.new_10) {
-            b.putInt("nb", 10);
-        } else if (id == R.id.rate_app) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_url)));
         }
-        intent.putExtras(b);
-        startActivity(intent);
-        return true;
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        queryPurchasedItems();
     }
 
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mInterstitialAd.loadAd(adRequest);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        queryPurchasedItems();
     }
 
-    private void showInterstitial() {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+    protected void queryPurchasedItems() {
+        //check if user has bought "remove adds"
+        if (mHelper.isSetupDone() && !mHelper.isAsyncInProgress()) {
+            try {
+                mHelper.queryInventoryAsync(mGotInventoryListener);
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 }
