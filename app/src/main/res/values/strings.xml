@@ -60,11 +60,11 @@
     <string name="diffHard">Difficile</string>
 
     <string name="billingKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz2qLEciU7Bd9ZJxAsKgr91Ud42A2D7Z0h9idy0FuI+OpB+Yu1+nOnyW9VyU/kDpGiFt/N3MhywrGpGaTGz3NtuAdOSURzFe7y8nEaWKsRlSFzfDmuGJgZZzMtqw4JnrrHz53vAKAuE7hcP5pABad0qpUouPPYQnF570I7BhE5TTVX999HCwOJIG7x4WwJ7di56jP40wX18xD8rCf7HhKlKZX1Z+11eDR4H0f2kafSwIbOJ7G2W39w3NT1vOEQtRYdgXfBBsKw4JSZGYCNNEEBFXzaCwn0vp0PairuaD8qyAixtH/O9upY8KIOcbcQkelbe6P+ZOmHyKBci/AojMzhQIDAQAB</string>
-    <string name="purchase">Purchase</string>
-    <string name="endAds">Tired of ads ?</string>
-    <string name="purchaseNoAds">Make a one-time payment of %1$s</string>
-    <string name="noMoreAds">No more ads forever</string>
-    <string name="purchaseNotDone">Purchase not done</string>
-    <string name="purchaseError">Error while making the payment</string>
-    <string name="purchaseThx">Thanks for your purchase</string>
+    <string name="purchase">Achat</string>
+    <string name="endAds">Marre des publicités ?</string>
+    <string name="purchaseNoAds">Faire un paiement unique de %1$s</string>
+    <string name="noMoreAds">Ne plus avoir de publicités définitivement</string>
+    <string name="purchaseNotDone">Achat non effectué</string>
+    <string name="purchaseError">Erreur durant le paiement</string>
+    <string name="purchaseThx">Merci pour votre achat</string>
 </resources>
