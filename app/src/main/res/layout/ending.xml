@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.MainActivity"
+    tools:context=".activities.MotusActivity"
     tools:showIn="@layout/app_bar_main">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -166,12 +166,30 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/fbshare"
+            android:id="@+id/restart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cmot5"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="30sp"
+            android:background="@drawable/button_red"
+            android:drawableEnd="@drawable/ic_home_white_24dp"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_home_white_24dp"
+            android:onClick="backHome"
+            android:paddingLeft="21dp"
+            android:paddingRight="21dp"
+            android:text="@string/back_home"
+            android:textSize="@dimen/btnsend"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/fbshare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/restart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
             android:background="@drawable/button_fb"
             android:drawableEnd="@drawable/com_facebook_button_icon"
             android:drawablePadding="5dp"

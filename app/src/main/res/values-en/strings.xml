@@ -27,7 +27,7 @@
     <string name="blue_explanation">this letter is not in the word</string>
     <string name="red_explanation">letter well placed</string>
     <string name="yellow_explanation">letter misplaced</string>
-    <string name="fb_share">Share on Facebook</string>
+    <string name="fb_share">Share</string>
     <string name="fb_share_title">I have played FindTheWords !</string>
     <string name="fb_ContentDesc">Today I played FindTheWords !</string>
     <string name="fb_ContentDesc2">I found the words :&#160;</string>
@@ -48,12 +48,6 @@
     <string name="getDef">https://google.com/?q=%1$s</string>
     <string name="diffEasy">Easy</string>
     <string name="diffHard">Hard</string>
+    <string name="back_home">Back Home</string>
 
-    <string name="purchase">Purchase</string>
-    <string name="endAds">Tired of ads ?</string>
-    <string name="purchaseNoAds">Make a one-time payment of %1$s</string>
-    <string name="noMoreAds">No more ads forever</string>
-    <string name="purchaseNotDone">Purchase not done</string>
-    <string name="purchaseError">Error while making the payment</string>
-    <string name="purchaseThx">Thanks for your purchase</string>
 </resources>

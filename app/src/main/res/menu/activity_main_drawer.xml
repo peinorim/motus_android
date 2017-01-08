@@ -23,10 +23,6 @@
             android:icon="@drawable/ic_10"
             android:title="@string/new_ten" />
         <item
-            android:id="@+id/nav_billing"
-            android:icon="@drawable/ic_money_off_black_24dp"
-            android:title="@string/endAds" />
-        <item
             android:id="@+id/rate_app"
             android:icon="@drawable/ic_star_black_24dp"
             android:title="@string/rate_app" />

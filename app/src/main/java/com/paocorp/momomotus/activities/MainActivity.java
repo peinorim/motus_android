@@ -8,28 +8,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.widget.ShareDialog;
 import com.paocorp.momomotus.R;
-import com.paocorp.momomotus.models.Global;
-import com.paocorp.momomotus.util.IabHelper;
-import com.paocorp.momomotus.util.IabResult;
-import com.paocorp.momomotus.util.Inventory;
-import com.paocorp.momomotus.util.Purchase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends ParentActivity {
 
@@ -68,29 +56,6 @@ public class MainActivity extends ParentActivity {
             e.printStackTrace();
         }
 
-        String base64EncodedPublicKey = this.getResources().getString(R.string.billingKey);
-        mHelper = new IabHelper(this, base64EncodedPublicKey);
-
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            @Override
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-                    // Oh no, there was a problem.
-                    Log.d("BILLING-ISSUE", "Problem setting up In-app Billing: " + result);
-                    return;
-                }
-                if (result.isSuccess()) {
-                    try {
-                        List additionalSkuList = new ArrayList<>();
-                        additionalSkuList.add(SKU_NOAD);
-                        mHelper.queryInventoryAsync(true, additionalSkuList, additionalSkuList, mGotInventoryListener);
-                    } catch (IabHelper.IabAsyncInProgressException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
         // Capture our button from layout
         startGame = (Button) findViewById(R.id.btnsend);
         startGame.setEnabled(true);
@@ -101,6 +66,8 @@ public class MainActivity extends ParentActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
+
+        launchInterstitial();
     }
 
     public void startGame(View v) {
@@ -131,51 +98,6 @@ public class MainActivity extends ParentActivity {
 
     public boolean onRadioButtonClicked(View v) {
         return true;
-    }
-
-    protected IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
-        @Override
-        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-            if (result.isFailure()) {
-                // handle error here
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
-            } else {
-                mIsRemoveAdds = inventory.hasPurchase(SKU_NOAD);
-                Purchase purchase = inventory.getPurchase(SKU_NOAD);
-                if (!mIsRemoveAdds || (purchase != null && purchase.getPurchaseState() != 0)) {
-                    Global.isNoAdsPurchased = false;
-                    launchInterstitial();
-                } else {
-                    Global.isNoAdsPurchased = true;
-                    Menu menu = navigationView.getMenu();
-                    MenuItem nav_billing = menu.findItem(R.id.nav_billing);
-                    nav_billing.setVisible(false);
-                }
-            }
-        }
-    };
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        queryPurchasedItems();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        queryPurchasedItems();
-    }
-
-    protected void queryPurchasedItems() {
-        //check if user has bought "remove adds"
-        if (mHelper.isSetupDone() && !mHelper.isAsyncInProgress()) {
-            try {
-                mHelper.queryInventoryAsync(mGotInventoryListener);
-            } catch (IabHelper.IabAsyncInProgressException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

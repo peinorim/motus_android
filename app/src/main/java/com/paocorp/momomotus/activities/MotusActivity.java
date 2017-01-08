@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,22 +36,15 @@ import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.paocorp.momomotus.R;
-import com.paocorp.momomotus.models.Global;
 import com.paocorp.momomotus.models.Mot;
 import com.paocorp.momomotus.models.Motus;
-import com.paocorp.momomotus.util.IabHelper;
-import com.paocorp.momomotus.util.IabResult;
-import com.paocorp.momomotus.util.Inventory;
-import com.paocorp.momomotus.util.Purchase;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -74,10 +66,6 @@ public class MotusActivity extends ParentActivity implements NavigationView.OnNa
     PackageInfo pInfo;
     String sMot;
     Toolbar toolbar;
-
-    IabHelper mHelper;
-    boolean mIsRemoveAdds = false;
-    String SKU_NOAD = Global.SKU_NOAD;
     NavigationView navigationView;
 
     @Override
@@ -168,32 +156,11 @@ public class MotusActivity extends ParentActivity implements NavigationView.OnNa
             }
         });
 
-        String base64EncodedPublicKey = this.getResources().getString(R.string.billingKey);
-        mHelper = new IabHelper(this, base64EncodedPublicKey);
-
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            @Override
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-                    // Oh no, there was a problem.
-                    Log.d("BILLING-ISSUE", "Problem setting up In-app Billing: " + result);
-                    return;
-                }
-                if (result.isSuccess()) {
-                    try {
-                        List additionalSkuList = new ArrayList<>();
-                        additionalSkuList.add(SKU_NOAD);
-                        mHelper.queryInventoryAsync(true, additionalSkuList, additionalSkuList, mGotInventoryListener);
-                    } catch (IabHelper.IabAsyncInProgressException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
+
+        loadBanner();
 
     }
 
@@ -298,6 +265,14 @@ public class MotusActivity extends ParentActivity implements NavigationView.OnNa
 
             shareDialog.show(linkContent);
         }
+    }
+
+    public void backHome(View v) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
+        finish();
     }
 
     public void goDef(View v) {
@@ -586,50 +561,5 @@ public class MotusActivity extends ParentActivity implements NavigationView.OnNa
                 });
         AlertDialog alert = builder.create();
         alert.show();
-    }
-
-    protected IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
-        @Override
-        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-            if (result.isFailure()) {
-                // handle error here
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
-            } else {
-                mIsRemoveAdds = inventory.hasPurchase(SKU_NOAD);
-                Purchase purchase = inventory.getPurchase(SKU_NOAD);
-                if (!mIsRemoveAdds || (purchase != null && purchase.getPurchaseState() != 0)) {
-                    Global.isNoAdsPurchased = false;
-                    loadBanner();
-                } else {
-                    Global.isNoAdsPurchased = true;
-                    Menu menu = navigationView.getMenu();
-                    MenuItem nav_billing = menu.findItem(R.id.nav_billing);
-                    nav_billing.setVisible(false);
-                }
-            }
-        }
-    };
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        queryPurchasedItems();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        queryPurchasedItems();
-    }
-
-    protected void queryPurchasedItems() {
-        //check if user has bought "remove adds"
-        if (mHelper.isSetupDone() && !mHelper.isAsyncInProgress()) {
-            try {
-                mHelper.queryInventoryAsync(mGotInventoryListener);
-            } catch (IabHelper.IabAsyncInProgressException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

@@ -32,7 +32,7 @@
     <string name="yellow_explanation">est une lettre mal placée.</string>
     <string name="blue_explanation">est une lettre qui n\'est pas dans le mot.</string>
     <string name="social_networks">Réseaux sociaux</string>
-    <string name="fb_share">Partager sur Facebook</string>
+    <string name="fb_share">Partager</string>
     <string name="fb_share_title">J\'ai joué à Momomotus !</string>
     <string name="fb_ContentDesc">Aujourd\'hui j\'ai joué à Momomotus !</string>
     <string name="fb_ContentDesc2">J\'ai trouvé les mots :&#160;</string>
@@ -49,12 +49,5 @@
     <string name="getDef">http://www.larousse.fr/dictionnaires/francais/%1$s</string>
     <string name="diffEasy">Normale</string>
     <string name="diffHard">Difficile</string>
-
-    <string name="purchase">Achat</string>
-    <string name="endAds">Marre des publicités ?</string>
-    <string name="purchaseNoAds">Faire un paiement unique de %1$s</string>
-    <string name="noMoreAds">Ne plus avoir de publicités définitivement</string>
-    <string name="purchaseNotDone">Achat non effectué</string>
-    <string name="purchaseError">Erreur durant le paiement</string>
-    <string name="purchaseThx">Merci pour votre achat</string>
+    <string name="back_home">Retour à l\'accueil</string>
 </resources>
